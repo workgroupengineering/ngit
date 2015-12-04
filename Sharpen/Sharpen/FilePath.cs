@@ -211,14 +211,14 @@ namespace Sharpen
 			}
 		}
 
-		public FilePath[] ListFiles ()
+		public FilePath[] ListFiles (bool caseSensitiveFileNames = true)
 		{
 			try {
 				if (IsFile ())
 					return null;
 				List<FilePath> list = new List<FilePath> ();
 				foreach (string filePath in Directory.GetFileSystemEntries (path)) {
-					list.Add (new FilePath (filePath));
+					list.Add (caseSensitiveFileNames ? new FilePath (filePath) : new FilePath(filePath.ToLowerInvariant()));
 				}
 				return list.ToArray ();
 			} catch {

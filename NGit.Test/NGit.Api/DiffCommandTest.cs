@@ -139,7 +139,7 @@ namespace NGit.Api
             }
             else
             {
-                return new FileTreeIterator(tree, FS.DETECTED, WorkingTreeOptions.KEY.Parse(new Config()));
+                return new FileTreeIterator(tree, FS.DETECTED, WorkingTreeOptions.KEY.Parse(new Config()), false);
             }
         }
 

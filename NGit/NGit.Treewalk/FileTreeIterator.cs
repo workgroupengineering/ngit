@@ -76,7 +76,9 @@ namespace NGit.Treewalk
 		/// </remarks>
 		protected internal readonly FS fs;
 
-		/// <summary>Create a new iterator to traverse the work tree and its children.</summary>
+	    private readonly bool _caseSensitiveFileNames;
+
+	    /// <summary>Create a new iterator to traverse the work tree and its children.</summary>
 		/// <remarks>Create a new iterator to traverse the work tree and its children.</remarks>
 		/// <param name="repo">the repository whose working tree will be scanned.</param>
 		public FileTreeIterator(Repository repo) : this(repo.WorkTree, repo.FileSystem, repo
@@ -85,23 +87,25 @@ namespace NGit.Treewalk
 			InitRootIterator(repo);
 		}
 
-		/// <summary>Create a new iterator to traverse the given directory and its children.</summary>
-		/// <remarks>Create a new iterator to traverse the given directory and its children.</remarks>
-		/// <param name="root">
-		/// the starting directory. This directory should correspond to
-		/// the root of the repository.
-		/// </param>
-		/// <param name="fs">
-		/// the file system abstraction which will be necessary to perform
-		/// certain file system operations.
-		/// </param>
-		/// <param name="options">working tree options to be used</param>
-		public FileTreeIterator(FilePath root, FS fs, WorkingTreeOptions options) : base(
+	    /// <summary>Create a new iterator to traverse the given directory and its children.</summary>
+	    /// <remarks>Create a new iterator to traverse the given directory and its children.</remarks>
+	    /// <param name="root">
+	    /// the starting directory. This directory should correspond to
+	    /// the root of the repository.
+	    /// </param>
+	    /// <param name="fs">
+	    /// the file system abstraction which will be necessary to perform
+	    /// certain file system operations.
+	    /// </param>
+	    /// <param name="options">working tree options to be used</param>
+	    /// <param name="caseSensitiveFileNames"></param>
+	    public FileTreeIterator(FilePath root, FS fs, WorkingTreeOptions options, bool caseSensitiveFileNames = true) : base(
 			options)
 		{
 			directory = root;
 			this.fs = fs;
-			Init(Entries());
+	        _caseSensitiveFileNames = caseSensitiveFileNames;
+	        Init(Entries());
 		}
 
 		/// <summary>Create a new iterator to traverse a subdirectory.</summary>
@@ -133,7 +137,7 @@ namespace NGit.Treewalk
 
 		private WorkingTreeIterator.Entry[] Entries()
 		{
-			FilePath[] all = directory.ListFiles();
+			FilePath[] all = directory.ListFiles(_caseSensitiveFileNames);
 			if (all == null)
 			{
 				return EOF;
