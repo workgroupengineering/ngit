@@ -306,6 +306,9 @@
     <EmbeddedResource Include="resources\NGit.Diff\FileStartingWithUtf8Bom.patch" />
     <EmbeddedResource Include="resources\NGit.Diff\FileStartingWithUtf8Bom_PostImage" />
     <EmbeddedResource Include="resources\NGit.Diff\FileStartingWithUtf8Bom_PreImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\FileCasing.patch" />
+    <EmbeddedResource Include="resources\NGit.Diff\FILECASING_PostImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\filecasing_PreImage" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

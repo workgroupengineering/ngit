@@ -117,7 +117,32 @@ namespace NGit.Api
 			CheckFile(new FilePath(db.WorkTree, "ToEmpty"), b.GetString(0, b.Size(), false));
 		}
 
-		[Test, Description("The files in this test should start with the UTF-8 byte order mark (EF BB BF in hex). The patch should contain the BOM too.")]
+        [Test]
+        public void PatchesContainingModifiedFilesWithDifferentFileNameCasingCanBeApplied()
+        {
+            const string name = "FileCasing";
+
+            var git = new Git(db);
+
+            a = new RawText(ReadFile(name.ToLowerInvariant() + "_PreImage"));
+            Write(
+                new FilePath(db.Directory.GetParent(), name.ToLowerInvariant()),
+                a.GetString(0, a.Size(), false));
+            git.Add().AddFilepattern(name.ToLowerInvariant()).Call();
+            git.Commit().SetMessage("PreImage").Call();
+            b = new RawText(ReadFile(name.ToUpperInvariant() + "_PostImage"));
+            var result =
+                git.Apply().SetPatch(typeof (DiffFormatterReflowTest).GetResourceAsStream(name + ".patch")).Call();
+
+            Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            Assert.AreEqual(
+                new FilePath(db.WorkTree, name.ToLowerInvariant()),
+                result.GetUpdatedFiles
+                    ()[0]);
+            CheckFile(new FilePath(db.WorkTree, name), b.GetString(0, b.Size(), false));
+        }
+
+	    [Test, Description("The files in this test should start with the UTF-8 byte order mark (EF BB BF in hex). The patch should contain the BOM too.")]
 		public void TestThatPatchWhichHasUtf8ByteOrderMarkInContextCanBeApplied()
 		{
 			ApplyResult result = Init("FileStartingWithUtf8Bom", true, true);

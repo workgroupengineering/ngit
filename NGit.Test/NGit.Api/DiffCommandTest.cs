@@ -43,12 +43,15 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NGit;
 using NGit.Api;
 using NGit.Diff;
 using NGit.Revwalk;
+using NGit.Storage.File;
 using NGit.Treewalk;
 using NGit.Treewalk.Filter;
+using NGit.Util;
 using Sharpen;
 
 namespace NGit.Api
@@ -82,8 +85,66 @@ namespace NGit.Api
 			NUnit.Framework.Assert.AreEqual(expected.ToString(), actual);
 		}
 
-		/// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
+        [NUnit.Framework.Test]
+        public virtual void IdenticalFilesWhichHaveDifferentFileNameCasingShouldBeIdentical()
+        {
+            var source = Directory.CreateDirectory("a");
+            var target = Directory.CreateDirectory("b");
+
+            var sourceFilePath = Path.Combine(source.FullName, "file.txt");
+            var targetFilePath = Path.Combine(target.FullName, "FILE.TXT");
+
+            try
+            {
+                File.Open(sourceFilePath, System.IO.FileMode.CreateNew).Close();
+
+                File.Open(targetFilePath, System.IO.FileMode.CreateNew).Close();
+                
+                var diffCommand = new Git(new FileRepository("NUL")).Diff();
+                diffCommand.SetOldTree(CreateIterator(source.FullName));
+                diffCommand.SetNewTree(CreateIterator(target.FullName));
+                var diffs = diffCommand.Call();
+
+                NUnit.Framework.CollectionAssert.IsEmpty(diffs);
+            }
+            finally
+            {
+                if (File.Exists(sourceFilePath))
+                {
+                    File.Delete(sourceFilePath);
+                }
+
+                if (File.Exists(targetFilePath))
+                {
+                    File.Delete(targetFilePath);
+                }
+
+                if (Directory.Exists(source.FullName))
+                {
+                    Directory.Delete(source.FullName);
+                }
+
+                if (Directory.Exists(target.FullName))
+                {
+                    Directory.Delete(target.FullName);
+                }
+            }
+        }
+
+	    private static AbstractTreeIterator CreateIterator(string tree)
+        {
+            if (tree == null)
+            {
+                return new EmptyTreeIterator();
+            }
+            else
+            {
+                return new FileTreeIterator(tree, FS.DETECTED, WorkingTreeOptions.KEY.Parse(new Config()));
+            }
+        }
+
+        /// <exception cref="System.Exception"></exception>
+        [NUnit.Framework.Test]
 		public virtual void TestDiffCached()
 		{
 			Write(new FilePath(db.WorkTree, "test.txt"), "test");
