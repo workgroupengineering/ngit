@@ -17,6 +17,7 @@
 		</dependencies>
 	</metadata>
 	<files>
+		<file src="Nuspec\RedGate.ThirdParty.NGit.targets" target="build" />
 		<file src="bin\NGit.dll" target="lib" />
 		<file src="bin\NGit.pdb" target="lib" />
 		<file src="NGit.license.txt" target="App_Readme" />
