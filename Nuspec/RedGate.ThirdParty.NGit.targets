@@ -1,0 +1,12 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <!--
+    Add the license files of the nuget package as linked items in the project file.
+    + get them to be copied to the build output folder.
+    -->
+    <None Include="$(MSBuildThisFileDirectory)..\App_Readme\**">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
