@@ -41,6 +41,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using System;
+using System.Linq;
 using System.Text;
 using NGit;
 using NGit.Util;
@@ -250,98 +252,89 @@ namespace NGit.Util
 		/// <summary>Quoting style that obeys the rules Git applies to file names</summary>
 		public sealed class GitPathStyle : QuotedString
 		{
-			private static readonly byte[] quote;
+            /// <summary>
+            /// Ordered by ascii value
+            /// </summary>
+			private static readonly char[] Whitespace = new char[] { 'a', 'b', 't', 'n', 'v', 'f', 'r' };
 
-			static GitPathStyle()
-			{
-				quote = new byte[128];
-				Arrays.Fill(quote, unchecked((byte)-1));
-				for (int i = '0'; i <= '9'; i++)
-				{
-					quote[i] = 0;
-				}
-				for (int i_1 = 'a'; i_1 <= 'z'; i_1++)
-				{
-					quote[i_1] = 0;
-				}
-				for (int i_2 = 'A'; i_2 <= 'Z'; i_2++)
-				{
-					quote[i_2] = 0;
-				}
-				quote[(byte)(' ')] = 0;
-				quote[(byte)('$')] = 0;
-				quote[(byte)('%')] = 0;
-				quote[(byte)('&')] = 0;
-				quote[(byte)('*')] = 0;
-				quote[(byte)('+')] = 0;
-				quote[(byte)(',')] = 0;
-				quote[(byte)('-')] = 0;
-				quote[(byte)('.')] = 0;
-				quote[(byte)('/')] = 0;
-				quote[(byte)(':')] = 0;
-				quote[(byte)(';')] = 0;
-				quote[(byte)('=')] = 0;
-				quote[(byte)('?')] = 0;
-				quote[(byte)('@')] = 0;
-				quote[(byte)('_')] = 0;
-				quote[(byte)('^')] = 0;
-				quote[(byte)('|')] = 0;
-				quote[(byte)('~')] = 0;
-				quote[(byte)('\u0007')] = (byte)('a');
-				quote[(byte)('\b')] = (byte)('b');
-				quote[(byte)('\f')] = (byte)('f');
-				quote[(byte)('\n')] = (byte)('n');
-				quote[(byte)('\r')] = (byte)('r');
-				quote[(byte)('\t')] = (byte)('t');
-				quote[(byte)('\u000B')] = (byte)('v');
-				quote[(byte)('\\')] = (byte)('\\');
-				quote[(byte)('"')] = (byte)('"');
-			}
+            /// <summary>
+            /// Using rules from https://github.com/ethomson/libgit2/blob/apply/src/buffer.c#L862 and http://marc.info/?l=git&m=112927316408690&w=2
+            /// </summary>
+            public override string Quote(string instr)
+            {
+                var buf = Encoding.UTF8.GetBytes(instr);
+                var indexToStartQuoting = GetIndexToStartQuoting(buf);
 
-			public override string Quote(string instr)
-			{
-				if (instr.Length == 0)
-				{
-					return "\"\"";
-				}
-				bool reuse = true;
-				byte[] @in = Constants.Encode(instr);
-				StringBuilder r = new StringBuilder(2 + @in.Length);
-				r.Append('"');
-				for (int i = 0; i < @in.Length; i++)
-				{
-					int c = @in[i] & unchecked((int)(0xff));
-					if (c < quote.Length)
-					{
-						byte style = quote[c];
-						if (style == 0)
-						{
-							r.Append((char)c);
-							continue;
-						}
-						if (style > 0)
-						{
-							reuse = false;
-							r.Append('\\');
-							r.Append((char)style);
-							continue;
-						}
-					}
-					reuse = false;
-					r.Append('\\');
-					r.Append((char)(((c >> 6) & 0x3) + '0'));
-					r.Append((char)(((c >> 3) & 0x7) + '0'));
-					r.Append((char)(((c >> 0) & 0x7) + '0'));
-				}
-				if (reuse)
-				{
-					return instr;
-				}
-				r.Append('"');
-				return r.ToString();
-			}
+                if (buf.Length != 0 && buf.Length == indexToStartQuoting)
+                {
+                    return instr;
+                }
 
-			public override string Dequote(byte[] @in, int inPtr, int inEnd)
+                StringBuilder quoted = new StringBuilder(2 + buf.Length);
+                quoted.Append('"');
+                quoted.Append(Encoding.UTF8.GetString(buf, 0, indexToStartQuoting));
+                for (int i = indexToStartQuoting; i < buf.Length; i++)
+                {
+                    AppendCharacter(buf, i, quoted);
+                }
+
+                quoted.Append('"');
+
+                return quoted.ToString();
+		    }
+
+		    private static int GetIndexToStartQuoting(byte[] buf)
+		    {
+		        int startQuotingIndex = 0;
+
+		        if (buf.ElementAtOrDefault(0) != '!')
+		        {
+		            for (; startQuotingIndex < buf.Length; startQuotingIndex++)
+		            {
+		                var thisElement = buf.ElementAt(startQuotingIndex);
+		                if (thisElement == '"' || thisElement == '\\' ||
+		                    thisElement < ' ' || thisElement > '~')
+		                {
+		                    break;
+		                }
+		            }
+		        }
+		        return startQuotingIndex;
+		    }
+
+		    private static void AppendCharacter(byte[] buf, int i, StringBuilder quoted)
+		    {
+                /* whitespace - use the map above, which is ordered by ascii value */
+		        var thisElement = buf.ElementAt(i);
+		        if (thisElement >= '\a' && thisElement <= '\r')
+		        {
+		            quoted.Append('\\');
+		            quoted.Append(Whitespace[thisElement - '\a']);
+		        }
+
+		        /* double quote and backslash must be escaped */
+		        else if (thisElement == '"' || thisElement == '\\')
+		        {
+		            quoted.Append('\\');
+		            quoted.Append((char) thisElement);
+		        }
+
+		        /* escape anything unprintable as octal */
+		        else if (thisElement != ' ' &&
+		                 (thisElement < '!' || thisElement > '~'))
+		        {
+		            quoted.Append("\\");
+		            quoted.Append(Convert.ToString(thisElement, 8).PadLeft(3, '0'));
+		        }
+
+		        /* yay, printable! */
+		        else
+		        {
+		            quoted.Append((char) thisElement);
+		        }
+		    }
+
+		    public override string Dequote(byte[] @in, int inPtr, int inEnd)
 			{
 				if (2 <= inEnd - inPtr && @in[inPtr] == '"' && @in[inEnd - 1] == '"')
 				{
