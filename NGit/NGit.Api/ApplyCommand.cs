@@ -326,8 +326,15 @@ namespace NGit.Api
 		    var lastHunk = fh.GetHunks().LastOrDefault();
 		    if (lastHunk != null)
 		    {
-                RawText lhrt = new RawText(lastHunk.GetBuffer());
-                return lhrt.GetString(lhrt.Size() - 1).Equals("\\ No newline at end of file");
+		        var needle = "\\ No newline at end of file";
+		        var buffer = lastHunk.GetBuffer();
+		        var latestPossibleNeedleStart = buffer.Length - needle.Length;
+		        if (latestPossibleNeedleStart < 0) return false;
+		        var characterBeforeLf = RawParseUtils.PrevLF(buffer, latestPossibleNeedleStart);
+		        var firstCharacterOfPossibleNeedle = characterBeforeLf + 2;
+		        var lastCharacterOfPossibleNeedle = firstCharacterOfPossibleNeedle + needle.Length;
+		        var possibleNeedle = RawParseUtils.Decode(buffer, firstCharacterOfPossibleNeedle, lastCharacterOfPossibleNeedle);
+		        return possibleNeedle.Equals(needle);
             }
 		    return false;
 
