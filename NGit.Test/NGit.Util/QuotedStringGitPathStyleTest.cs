@@ -108,7 +108,15 @@ namespace NGit.Util
 			NUnit.Framework.Assert.AreSame(@in, QuotedString.GIT_PATH.Quote(@in));
 		}
 
-		[NUnit.Framework.Test]
+        [NUnit.Framework.Test]
+        public virtual void TestQuote_BareHash()
+        {
+            string @in = "#";
+            NUnit.Framework.Assert.AreSame(@in, QuotedString.GIT_PATH.Quote(@in));
+        }
+
+
+        [NUnit.Framework.Test]
 		public virtual void TestDequote_BareA()
 		{
 			string @in = "a";
