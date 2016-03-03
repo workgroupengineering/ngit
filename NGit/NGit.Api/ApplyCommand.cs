@@ -217,10 +217,11 @@ namespace NGit.Api
 				oldLines.AddItem(rt.GetString(i));
 			}
 			IList<string> newLines = new AList<string>(oldLines);
-			foreach (HunkHeader hh in fh.GetHunks())
+		    RawText hrt = null;
+            foreach (HunkHeader hh in fh.GetHunks())
 			{
 				var buffer = Sharpen.Runtime.GetStringForBytes(hh.GetBuffer(), hh.GetStartOffset(), hh.GetEndOffset() - hh.GetStartOffset());
-				RawText hrt = new RawText(Sharpen.Runtime.GetBytesForString(buffer));
+				hrt = new RawText(Sharpen.Runtime.GetBytesForString(buffer));
 				IList<string> hunkLines = new AList<string>(hrt.Size());
 				for (int i_1 = 0; i_1 < hrt.Size(); i_1++)
 				{
@@ -267,7 +268,7 @@ namespace NGit.Api
 					}
 				}
 			}
-			if (!IsNoNewlineAtEndOfFile(fh))
+			if (!IsNoNewlineAtEndOfFile(hrt))
 			{
 				newLines.AddItem(string.Empty);
 			}
@@ -321,13 +322,11 @@ namespace NGit.Api
 			return false;
 		}
 
-		private bool IsNoNewlineAtEndOfFile(FileHeader fh)
+		private bool IsNoNewlineAtEndOfFile(RawText lastRawTextOrDefault)
 		{
-		    var lastHunk = fh.GetHunks().LastOrDefault();
-		    if (lastHunk != null)
+		    if (lastRawTextOrDefault != null)
 		    {
-                RawText lhrt = new RawText(lastHunk.GetBuffer());
-                return lhrt.GetString(lhrt.Size() - 1).Equals("\\ No newline at end of file");
+                return lastRawTextOrDefault.GetString(lastRawTextOrDefault.Size() - 1).Equals("\\ No newline at end of file");
             }
 		    return false;
 
