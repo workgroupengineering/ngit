@@ -1,0 +1,16 @@
+diff --git a/FILECASING b/FILECASING
+new file mode 100644
+index 0000000..1d38095
+--- /dev/null
++++ b/FILECASING
+@@ -0,0 +1 @@
++b
+\ No newline at end of file
+diff --git a/filecasing b/filecasing
+deleted file mode 100644
+index e43e50c..0000000
+--- a/filecasing
++++ /dev/null
+@@ -1 +0,0 @@
+-a
+\ No newline at end of file

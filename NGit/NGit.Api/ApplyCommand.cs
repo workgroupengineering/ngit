@@ -117,7 +117,7 @@ namespace NGit.Api
 				{
 					throw new PatchFormatException(p.GetErrors());
 				}
-				foreach (FileHeader fh in p.GetFiles())
+			    foreach (FileHeader fh in GetFilesInApplicationOrder(p))
 				{
 					DiffEntry.ChangeType type = fh.GetChangeType();
 					FilePath f = null;
@@ -182,7 +182,16 @@ namespace NGit.Api
 			return r;
 		}
 
-		/// <exception cref="NGit.Api.Errors.PatchApplyException"></exception>
+        /// <summary>
+        /// Put deletes first in case a file is renamed in case on a case insensitive system
+        /// The old file must be deleted before it tries to create the new file
+        /// </summary>
+	    private static IList<FileHeader> GetFilesInApplicationOrder(Patch.Patch p)
+	    {
+	        return p.GetFiles().OrderByDescending(x => x.changeType == DiffEntry.ChangeType.DELETE).ToList();
+	    }
+
+	    /// <exception cref="NGit.Api.Errors.PatchApplyException"></exception>
 		private FilePath GetFile(string path, bool create)
 		{
 			FilePath f = new FilePath(GetRepository().WorkTree, path);
