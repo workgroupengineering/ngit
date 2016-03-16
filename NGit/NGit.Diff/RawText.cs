@@ -338,7 +338,8 @@ namespace NGit.Diff
 			{
 				return null;
 			}
-			if (content.Length > 1 && content[e - 2] == '\r')
+		    var potentialLinefeedIndex = e - 2;
+		    if (potentialLinefeedIndex >= 0 && content[potentialLinefeedIndex] == '\r')
 			{
 				return "\r\n";
 			}

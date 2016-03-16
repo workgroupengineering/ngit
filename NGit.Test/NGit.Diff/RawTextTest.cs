@@ -222,6 +222,14 @@ namespace NGit.Diff
 			NUnit.Framework.Assert.IsFalse(rt.IsMissingNewlineAtEnd());
 		}
 
+        [NUnit.Framework.Test]
+	    public virtual void LineDelimiterStartingWithCharacterReturn()
+	    {
+            var rt = new RawText(Constants.EncodeASCII("\nfoo"));
+            NUnit.Framework.Assert.AreEqual("\n", rt.GetLineDelimiter());
+            NUnit.Framework.Assert.IsTrue(rt.IsMissingNewlineAtEnd());
+        }
+
 		private static RawText T(string text)
 		{
 			StringBuilder r = new StringBuilder();
