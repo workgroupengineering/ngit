@@ -154,8 +154,15 @@ namespace NGit.Api
 			Init("F2", true, false);
 		}
 
-	    /// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
+        /// <exception cref="System.Exception"></exception>
+        [Test]
+        public virtual void ThePatchApplyExceptionShouldContainDetailsOfTheFailureIfTheChangeTypeWasModify()
+        {
+            Assert.That(() => Init("F2", true, false), Throws.InnerException.TypeOf<PatchApplyModifiedException>());
+        }
+
+        /// <exception cref="System.Exception"></exception>
+        [NUnit.Framework.Test]
 		public virtual void TestModifyE()
 		{
 			ApplyResult result = Init("E");
