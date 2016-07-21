@@ -40,6 +40,7 @@
     <Reference Include="ICSharpCode.SharpZipLib" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NGit.Api.Errors\PatchApplyModifiedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NGit\AbbreviatedObjectId.cs" />
     <Compile Include="NGit\AnyObjectId.cs" />

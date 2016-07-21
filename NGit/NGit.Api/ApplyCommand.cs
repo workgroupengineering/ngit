@@ -248,7 +248,7 @@ namespace NGit.Api
 								, 1)))
 							{
 								throw new PatchApplyException(MessageFormat.Format(JGitText.Get().patchApplyException
-									, hh));
+									, hh), new PatchApplyModifiedException(f.GetAbsolutePath(), buffer, hunkLine, newLines[hh.GetNewStartLine() - 1 + pos]));
 							}
 							pos++;
 							break;
@@ -261,7 +261,7 @@ namespace NGit.Api
 								, 1)))
 							{
 								throw new PatchApplyException(MessageFormat.Format(JGitText.Get().patchApplyException
-									, hh));
+									, hh), new PatchApplyModifiedException(f.GetAbsolutePath(), buffer, hunkLine, newLines[index]));
 							}
 							newLines.Remove(index);
 							break;
