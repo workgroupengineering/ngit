@@ -45,6 +45,7 @@ using System.IO;
 using System.Text;
 using NGit;
 using NGit.Api;
+using NGit.Api.Errors;
 using NGit.Diff;
 using NUnit.Framework;
 using Sharpen;
@@ -139,20 +140,29 @@ namespace NGit.Api
 			NUnit.Framework.Assert.IsFalse(new FilePath(db.WorkTree, "D").Exists());
 		}
 
-	    /// <exception cref="System.Exception"></exception>
-		public virtual void TestFailureF1()
+        /// <exception cref="System.Exception"></exception>
+        [Test, ExpectedException(typeof(PatchFormatException))]
+        public virtual void TestFailureF1()
 		{
 			Init("F1", true, false);
 		}
 
 	    /// <exception cref="System.Exception"></exception>
+	    [Test, ExpectedException(typeof(PatchApplyException))]
 		public virtual void TestFailureF2()
 		{
 			Init("F2", true, false);
 		}
 
-	    /// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
+        /// <exception cref="System.Exception"></exception>
+        [Test]
+        public virtual void ThePatchApplyExceptionShouldContainDetailsOfTheFailureIfTheChangeTypeWasModify()
+        {
+            Assert.That(() => Init("F2", true, false), Throws.InnerException.TypeOf<PatchApplyModifiedException>());
+        }
+
+        /// <exception cref="System.Exception"></exception>
+        [NUnit.Framework.Test]
 		public virtual void TestModifyE()
 		{
 			ApplyResult result = Init("E");
