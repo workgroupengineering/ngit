@@ -2,7 +2,7 @@ using System;
 
 namespace NGit.Api.Errors
 {
-    internal class PatchApplyModifiedException : Exception
+    public sealed class PatchApplyModifiedException : Exception
     {
         public string FilePath { get; }
         public string Hunk { get; }
