@@ -380,8 +380,8 @@ SCAN_continue: ;
 			}
 SCAN_break: ;
 			if (last < end && nContext + old.nDeleted - 1 == old.lineCount && nContext + old.
-				nAdded == newLineCount && RawParseUtils.Match(buf, last, NGit.Patch.Patch.SIG_FOOTER
-				) >= 0)
+				nAdded == newLineCount && (RawParseUtils.Match(buf, last, Patch.SIG_FOOTER
+				    ) >= 0 || RawParseUtils.Match(buf, last, Patch.SIG_FOOTER_WINDOWS) >= 0))
 			{
 				// This is an extremely common occurrence of "corruption".
 				// Users add footers with their signatures after this mark,

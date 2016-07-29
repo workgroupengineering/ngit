@@ -168,7 +168,7 @@ namespace NGit.Patch
 			//
 			while (ptr < end)
 			{
-				bool empty = buf[ptr] == '\n';
+				bool empty = (buf[ptr] == '\n') || (buf[ptr] == '\r' && buf[ptr-1] == '\n');
 				ptr = RawParseUtils.NextLF(buf, ptr);
 				if (empty)
 				{

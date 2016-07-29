@@ -87,8 +87,8 @@ namespace NGit.Patch
 				, fRepositoryConfigTest.GetNewPath());
 			NUnit.Framework.Assert.AreEqual("org.eclipse.jgit/src/org/spearce/jgit/lib/RepositoryConfig.java"
 				, fRepositoryConfig.GetNewPath());
-			NUnit.Framework.Assert.AreEqual(572, fRepositoryConfigTest.startOffset);
-			NUnit.Framework.Assert.AreEqual(1490, fRepositoryConfig.startOffset);
+			NUnit.Framework.Assert.AreEqual(m_Crlf ? 586 : 572, fRepositoryConfigTest.startOffset);
+			NUnit.Framework.Assert.AreEqual(m_Crlf ? 1520 : 1490, fRepositoryConfig.startOffset);
 			NUnit.Framework.Assert.AreEqual("da7e704", fRepositoryConfigTest.GetOldId().Name);
 			NUnit.Framework.Assert.AreEqual("34ce04a", fRepositoryConfigTest.GetNewId().Name);
 			NUnit.Framework.Assert.AreEqual(FileHeader.PatchType.UNIFIED, fRepositoryConfigTest
@@ -101,7 +101,7 @@ namespace NGit.Patch
 			{
 				HunkHeader h = fRepositoryConfigTest.GetHunks()[0];
 				NUnit.Framework.Assert.AreSame(fRepositoryConfigTest, h.GetFileHeader());
-				NUnit.Framework.Assert.AreEqual(921, h.startOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 939 : 921, h.startOffset);
 				NUnit.Framework.Assert.AreEqual(109, h.GetOldImage().GetStartLine());
 				NUnit.Framework.Assert.AreEqual(4, h.GetOldImage().GetLineCount());
 				NUnit.Framework.Assert.AreEqual(109, h.GetNewStartLine());
@@ -111,7 +111,7 @@ namespace NGit.Patch
 				NUnit.Framework.Assert.AreEqual(0, h.GetOldImage().GetLinesDeleted());
 				NUnit.Framework.Assert.AreSame(fRepositoryConfigTest.GetOldId(), h.GetOldImage().
 					GetId());
-				NUnit.Framework.Assert.AreEqual(1490, h.endOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 1520 : 1490, h.endOffset);
 			}
 			NUnit.Framework.Assert.AreEqual("45c2f8a", fRepositoryConfig.GetOldId().Name);
 			NUnit.Framework.Assert.AreEqual("3291bba", fRepositoryConfig.GetNewId().Name);
@@ -125,7 +125,7 @@ namespace NGit.Patch
 			{
 				HunkHeader h = fRepositoryConfig.GetHunks()[0];
 				NUnit.Framework.Assert.AreSame(fRepositoryConfig, h.GetFileHeader());
-				NUnit.Framework.Assert.AreEqual(1803, h.startOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 1837 : 1803, h.startOffset);
 				NUnit.Framework.Assert.AreEqual(236, h.GetOldImage().GetStartLine());
 				NUnit.Framework.Assert.AreEqual(9, h.GetOldImage().GetLineCount());
 				NUnit.Framework.Assert.AreEqual(236, h.GetNewStartLine());
@@ -135,11 +135,11 @@ namespace NGit.Patch
 				NUnit.Framework.Assert.AreEqual(2, h.GetOldImage().GetLinesDeleted());
 				NUnit.Framework.Assert.AreSame(fRepositoryConfig.GetOldId(), h.GetOldImage().GetId
 					());
-				NUnit.Framework.Assert.AreEqual(2434, h.endOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 2480 : 2434, h.endOffset);
 			}
 			{
 				HunkHeader h = fRepositoryConfig.GetHunks()[1];
-				NUnit.Framework.Assert.AreEqual(2434, h.startOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 2480 : 2434, h.startOffset);
 				NUnit.Framework.Assert.AreEqual(300, h.GetOldImage().GetStartLine());
 				NUnit.Framework.Assert.AreEqual(7, h.GetOldImage().GetLineCount());
 				NUnit.Framework.Assert.AreEqual(300, h.GetNewStartLine());
@@ -147,11 +147,11 @@ namespace NGit.Patch
 				NUnit.Framework.Assert.AreEqual(6, h.GetLinesContext());
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetLinesAdded());
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetLinesDeleted());
-				NUnit.Framework.Assert.AreEqual(2816, h.endOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 2871 : 2816, h.endOffset);
 			}
 			{
 				HunkHeader h = fRepositoryConfig.GetHunks()[2];
-				NUnit.Framework.Assert.AreEqual(2816, h.startOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 2871 : 2816, h.startOffset);
 				NUnit.Framework.Assert.AreEqual(954, h.GetOldImage().GetStartLine());
 				NUnit.Framework.Assert.AreEqual(7, h.GetOldImage().GetLineCount());
 				NUnit.Framework.Assert.AreEqual(954, h.GetNewStartLine());
@@ -159,7 +159,7 @@ namespace NGit.Patch
 				NUnit.Framework.Assert.AreEqual(6, h.GetLinesContext());
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetLinesAdded());
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetLinesDeleted());
-				NUnit.Framework.Assert.AreEqual(3035, h.endOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 3099 : 3035, h.endOffset);
 			}
 		}
 
@@ -283,7 +283,7 @@ namespace NGit.Patch
 			NUnit.Framework.Assert.AreSame(fh, rev.GetFileHeader());
 			NUnit.Framework.Assert.AreEqual(BinaryHunk.Type.DELTA_DEFLATED, fwd.GetType());
 			NUnit.Framework.Assert.AreEqual(BinaryHunk.Type.DELTA_DEFLATED, rev.GetType());
-			NUnit.Framework.Assert.AreEqual(496, fh.endOffset);
+			NUnit.Framework.Assert.AreEqual(m_Crlf ? 514 : 496, fh.endOffset);
 		}
 
 		/// <exception cref="System.IO.IOException"></exception>
@@ -295,7 +295,7 @@ namespace NGit.Patch
 			NUnit.Framework.Assert.IsTrue(p.GetErrors().IsEmpty());
 			FileHeader f = p.GetFiles()[0];
 			NUnit.Framework.Assert.AreEqual("a", f.GetNewPath());
-			NUnit.Framework.Assert.AreEqual(252, f.startOffset);
+			NUnit.Framework.Assert.AreEqual(m_Crlf ? 261 : 252, f.startOffset);
 			NUnit.Framework.Assert.AreEqual("2e65efe", f.GetOldId().Name);
 			NUnit.Framework.Assert.AreEqual("f2ad6c7", f.GetNewId().Name);
 			NUnit.Framework.Assert.AreEqual(FileHeader.PatchType.UNIFIED, f.GetPatchType());
@@ -305,7 +305,7 @@ namespace NGit.Patch
 			{
 				HunkHeader h = f.GetHunks()[0];
 				NUnit.Framework.Assert.AreSame(f, h.GetFileHeader());
-				NUnit.Framework.Assert.AreEqual(317, h.startOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 330 : 317, h.startOffset);
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetStartLine());
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetLineCount());
 				NUnit.Framework.Assert.AreEqual(1, h.GetNewStartLine());
@@ -314,7 +314,7 @@ namespace NGit.Patch
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetLinesAdded());
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetLinesDeleted());
 				NUnit.Framework.Assert.AreSame(f.GetOldId(), h.GetOldImage().GetId());
-				NUnit.Framework.Assert.AreEqual(363, h.endOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 380 : 363, h.endOffset);
 			}
 		}
 
@@ -327,7 +327,7 @@ namespace NGit.Patch
 			NUnit.Framework.Assert.IsTrue(p.GetErrors().IsEmpty());
 			FileHeader f = p.GetFiles()[0];
 			NUnit.Framework.Assert.AreEqual("a", f.GetNewPath());
-			NUnit.Framework.Assert.AreEqual(256, f.startOffset);
+			NUnit.Framework.Assert.AreEqual(m_Crlf ? 265 : 256, f.startOffset);
 			NUnit.Framework.Assert.AreEqual("f2ad6c7", f.GetOldId().Name);
 			NUnit.Framework.Assert.AreEqual("c59d9b6", f.GetNewId().Name);
 			NUnit.Framework.Assert.AreEqual(FileHeader.PatchType.UNIFIED, f.GetPatchType());
@@ -337,7 +337,7 @@ namespace NGit.Patch
 			{
 				HunkHeader h = f.GetHunks()[0];
 				NUnit.Framework.Assert.AreSame(f, h.GetFileHeader());
-				NUnit.Framework.Assert.AreEqual(321, h.startOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 334 : 321, h.startOffset);
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetStartLine());
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetLineCount());
 				NUnit.Framework.Assert.AreEqual(1, h.GetNewStartLine());
@@ -346,7 +346,7 @@ namespace NGit.Patch
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetLinesAdded());
 				NUnit.Framework.Assert.AreEqual(1, h.GetOldImage().GetLinesDeleted());
 				NUnit.Framework.Assert.AreSame(f.GetOldId(), h.GetOldImage().GetId());
-				NUnit.Framework.Assert.AreEqual(367, h.endOffset);
+				NUnit.Framework.Assert.AreEqual(m_Crlf ? 384 : 367, h.endOffset);
 			}
 		}
 

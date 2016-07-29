@@ -69,11 +69,13 @@ namespace NGit.Patch
 			("Binary files "), Constants.EncodeASCII("Files ") };
 
 		private static readonly byte[] BIN_TRAILER = Constants.EncodeASCII(" differ\n");
+		private static readonly byte[] BIN_TRAILER_WINDOWS = Constants.EncodeASCII(" differ\r\n");
 
-		private static readonly byte[] GIT_BINARY = Constants.EncodeASCII("GIT binary patch\n"
-			);
+	    private static readonly byte[] GIT_BINARY = Constants.EncodeASCII("GIT binary patch\n");
+		private static readonly byte[] GIT_BINARY_WINDOWS = Constants.EncodeASCII("GIT binary patch\r\n");
 
 		internal static readonly byte[] SIG_FOOTER = Constants.EncodeASCII("-- \n");
+		internal static readonly byte[] SIG_FOOTER_WINDOWS = Constants.EncodeASCII("-- \r\n");
 
 		/// <summary>The files, in the order they were parsed out of the input.</summary>
 		/// <remarks>The files, in the order they were parsed out of the input.</remarks>
@@ -138,15 +140,10 @@ namespace NGit.Patch
 		/// </param>
 		/// <exception cref="System.IO.IOException">there was an error reading from the input stream.
 		/// </exception>
-	    /// <returns>true iff CLRFs were detected and replaced during parsing</returns>
-	    public virtual bool Parse(InputStream @is)
+	    public virtual void Parse(InputStream @is)
 		{
-		    using (var lfOnlyStream = new EolCanonicalizingInputStream(@is, false))
-		    {
-		        byte[] buf = ReadFully(lfOnlyStream);
-		        Parse(buf, 0, buf.Length);
-		        return lfOnlyStream.HasReplacedCrlf;
-		    }
+		    byte[] buf = ReadFully(@is);
+		    Parse(buf, 0, buf.Length);
 		}
 
 		/// <exception cref="System.IO.IOException"></exception>
@@ -354,7 +351,7 @@ namespace NGit.Patch
 
 							default:
 							{
-								if (RawParseUtils.Match(buf, c, SIG_FOOTER) < 0)
+								if (RawParseUtils.Match(buf, c, SIG_FOOTER) < 0 && RawParseUtils.Match(buf, c, SIG_FOOTER_WINDOWS) < 0)
 								{
 									Warn(buf, c, JGitText.Get().unexpectedHunkTrailer);
 								}
@@ -365,13 +362,15 @@ namespace NGit.Patch
 					continue;
 				}
 				int eol = RawParseUtils.NextLF(buf, c);
-				if (fh.GetHunks().IsEmpty() && RawParseUtils.Match(buf, c, GIT_BINARY) >= 0)
+				if (fh.GetHunks().IsEmpty() && (RawParseUtils.Match(buf, c, GIT_BINARY) >= 0  || RawParseUtils.Match(buf, c, GIT_BINARY_WINDOWS) >= 0))
 				{
 					fh.patchType = FileHeader.PatchType.GIT_BINARY;
 					return ParseGitBinary(fh, eol, end);
 				}
-				if (fh.GetHunks().IsEmpty() && BIN_TRAILER.Length < eol - c && RawParseUtils.Match
-					(buf, eol - BIN_TRAILER.Length, BIN_TRAILER) >= 0 && MatchAny(buf, c, BIN_HEADERS
+				if (fh.GetHunks().IsEmpty() && 
+                    ((BIN_TRAILER.Length < eol - c && RawParseUtils.Match(buf, eol - BIN_TRAILER.Length, BIN_TRAILER) >= 0 )
+                    || (BIN_TRAILER_WINDOWS.Length < eol - c && RawParseUtils.Match(buf, eol - BIN_TRAILER_WINDOWS.Length, BIN_TRAILER_WINDOWS) >= 0))
+                    && MatchAny(buf, c, BIN_HEADERS
 					))
 				{
 					// The patch is a binary file diff, with no deltas.
