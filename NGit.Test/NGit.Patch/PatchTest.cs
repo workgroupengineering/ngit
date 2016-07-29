@@ -80,7 +80,7 @@ namespace NGit.Patch
 		{
 			NGit.Patch.Patch p = ParseTestPatchFile();
 			NUnit.Framework.Assert.AreEqual(2, p.GetFiles().Count);
-			NUnit.Framework.Assert.IsTrue(p.GetErrors().IsEmpty());
+			NUnit.Framework.Assert.That(p.GetErrors(), Is.Empty);
 			FileHeader fRepositoryConfigTest = p.GetFiles()[0];
 			FileHeader fRepositoryConfig = p.GetFiles()[1];
 			NUnit.Framework.Assert.AreEqual("org.eclipse.jgit.test/tst/org/spearce/jgit/lib/RepositoryConfigTest.java"
