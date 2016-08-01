@@ -204,7 +204,10 @@ namespace NGit.Api
 				()[0]);
 			CheckFile(new FilePath(db.WorkTree, "Z"), b.GetString(0, b.Size(), false));
 		}
+	}
 
+    public class ApplyCommandLineEndingsTests : RepositoryTestCase
+    {
         [Test]
         public void ApplyingPatchWithInconsistentMacLineEndingsIsSuccessfullyApplied()
         {
@@ -228,5 +231,6 @@ namespace NGit.Api
 
             Assert.That(File.ReadAllText(modifiedFile), Is.EqualTo(post));
         }
-	}
+    }
+
 }
