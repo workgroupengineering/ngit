@@ -445,7 +445,7 @@ namespace NGit.Patch
 				// If buffer[aStart..sp - 1] = buffer[bStart..eol - 1]
 				// we have a valid split.
 				//
-				if (Eq(aStart, sp - 1, bStart, buf[eol-2] == '\r' ? eol - 2 : eol - 1))
+				if (Eq(aStart, sp - 1, bStart, IsWindowsLineEnding(eol)? eol - 2 : eol - 1))
 				{
 					if (buf[bol] == '"')
 					{
@@ -715,7 +715,7 @@ namespace NGit.Patch
 		internal virtual FileMode ParseFileMode(int ptr, int end)
 		{
 			int tmp = 0;
-		    if (buf[end - 2] == '\r') // Ignore windows line ending
+		    if (IsWindowsLineEnding(end)) // Ignore windows line ending
 		    {
 		        end--;
             }
@@ -727,15 +727,22 @@ namespace NGit.Patch
 			return FileMode.FromBits(tmp);
 		}
 
-		internal virtual void ParseIndexLine(int ptr, int end)
+	    private bool IsWindowsLineEnding(int end)
+	    {
+            // end points to the poisition after the \n,
+            // We want to know if the previous character to the \n was \r
+	        return end - 2 > 0 && buf[end - 2] == '\r';
+	    }
+
+	    internal virtual void ParseIndexLine(int ptr, int end)
 		{
 			// "index $asha1..$bsha1[ $mode]" where $asha1 and $bsha1
 			// can be unique abbreviations
 			//
 			int dot2 = RawParseUtils.NextLF(buf, ptr, '.');
 			int mode = RawParseUtils.NextLF(buf, dot2, ' ');
-			oldId = AbbreviatedObjectId.FromString(buf, ptr, buf[dot2 - 2] == '\r' ? dot2 - 2 : dot2 - 1);
-			newId = AbbreviatedObjectId.FromString(buf, dot2 + 1, buf[mode - 2] == '\r' ? mode - 2 : mode - 1);
+			oldId = AbbreviatedObjectId.FromString(buf, ptr, IsWindowsLineEnding(dot2) ? dot2 - 2 : dot2 - 1);
+			newId = AbbreviatedObjectId.FromString(buf, dot2 + 1, IsWindowsLineEnding(mode) ? mode - 2 : mode - 1);
 			if (mode < end)
 			{
 				newMode = oldMode = ParseFileMode(mode, end);
