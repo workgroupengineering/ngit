@@ -66,7 +66,6 @@ namespace NGit.Api
 	public class ApplyCommand : GitCommand<ApplyResult>
 	{
 		private InputStream @in;
-	    private bool patchContainedCrlf;
 
 		/// <summary>Constructs the command if the patch is to be applied to the index.</summary>
 		/// <remarks>Constructs the command if the patch is to be applied to the index.</remarks>
@@ -112,7 +111,7 @@ namespace NGit.Api
 			try
 			{
 				NGit.Patch.Patch p = new NGit.Patch.Patch();
-                patchContainedCrlf = p.Parse(@in);
+                p.Parse(@in);
                 if (!p.GetErrors().IsEmpty())
 				{
 					throw new PatchFormatException(p.GetErrors());
@@ -227,10 +226,17 @@ namespace NGit.Api
 			}
 			IList<string> newLines = new AList<string>(oldLines);
 		    RawText hrt = null;
+		    var containedCRLF = false;
             foreach (HunkHeader hh in fh.GetHunks())
 			{
 				var buffer = Sharpen.Runtime.GetStringForBytes(hh.GetBuffer(), hh.GetStartOffset(), hh.GetEndOffset() - hh.GetStartOffset());
-				hrt = new RawText(Sharpen.Runtime.GetBytesForString(buffer));
+
+                if (!containedCRLF)
+			    {
+                    containedCRLF |= buffer.Contains("\r\n");
+                }
+
+                hrt = new RawText(Sharpen.Runtime.GetBytesForString(buffer));
 				IList<string> hunkLines = new AList<string>(hrt.Size());
 				for (int i_1 = 0; i_1 < hrt.Size(); i_1++)
 				{
@@ -292,7 +298,7 @@ namespace NGit.Api
 			// don't touch the file
 			StringBuilder sb = new StringBuilder();
 		    string eol = rt.Size() == 0 || (rt.Size() == 1 && rt.IsMissingNewlineAtEnd())
-		        ? GetLineDelimiter(patchContainedCrlf)
+		        ? (containedCRLF ? "\r\n" : "\n")
 		        : rt.GetLineDelimiter();
 
 		    for (int index = 0; index < newLines.Count; index++)
@@ -309,11 +315,6 @@ namespace NGit.Api
 			fw.Write(sb.ToString());
 			fw.Close();
 		}
-
-	    private string GetLineDelimiter(bool useCrlf)
-	    {
-	        return useCrlf ? "\r\n" : "\n";
-	    }
 
 	    private bool IsChanged(IList<string> ol, IList<string> nl)
 		{

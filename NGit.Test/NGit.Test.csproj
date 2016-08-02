@@ -42,6 +42,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NGit.Api\ApplyCommandLineEndingsTests.cs" />
     <Compile Include="NGit.Api\CrlfIndependentApplyCommandTests.cs" />
     <Compile Include="NGit.Api\PatchApplicationTester.cs" />
     <Compile Include="NGit.Util.IO\TypeExtensions.cs" />

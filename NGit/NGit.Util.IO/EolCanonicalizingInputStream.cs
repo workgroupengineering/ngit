@@ -69,8 +69,6 @@ namespace NGit.Util.IO
 
 		private bool detectBinary;
 
-	    public bool HasReplacedCrlf { get; private set; }
-
 	    /// <summary>Creates a new InputStream, wrapping the specified stream</summary>
 		/// <param name="in">raw input stream</param>
 		/// <param name="detectBinary">whether binaries should be detected</param>
@@ -123,7 +121,6 @@ namespace NGit.Util.IO
 				{
 					bs[off++] = (byte)('\n');
 					ptr++;
-				    HasReplacedCrlf = true;
 				}
                 else// "\r{something else}"
                 {
