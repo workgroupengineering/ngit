@@ -71,7 +71,7 @@ namespace NGit.Patch
 		private static readonly byte[] BIN_TRAILER = Constants.EncodeASCII(" differ\n");
 		private static readonly byte[] BIN_TRAILER_WINDOWS = Constants.EncodeASCII(" differ\r\n");
 
-	    private static readonly byte[] GIT_BINARY = Constants.EncodeASCII("GIT binary patch\n");
+		private static readonly byte[] GIT_BINARY = Constants.EncodeASCII("GIT binary patch\n");
 		private static readonly byte[] GIT_BINARY_WINDOWS = Constants.EncodeASCII("GIT binary patch\r\n");
 
 		internal static readonly byte[] SIG_FOOTER = Constants.EncodeASCII("-- \n");
