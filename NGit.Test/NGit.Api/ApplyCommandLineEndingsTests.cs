@@ -6,6 +6,14 @@ namespace NGit.Api
 {
     public class ApplyCommandLineEndingsTests : RepositoryTestCase
     {
+        // This test covers the case where Patch files where being parsed twice for windows line endings meaning a\r\r\nb would be converted to [a,b]
+        // But the original file would be parsed as [a\r,b], so when being compared during apply it would detect the change and error
+        // We had 3 possible fixes
+        //  1 - Ignore trailing \r in ApplyCommand.cs (This just plasters over the issue of parsing being different)
+        //  2 - Don't remove the \r during read and instead understand line windows line endings in the patch parsing (See https://github.com/red-gate/ngit/pull/17 for the change)
+        //  3 - Convert all Windows Line Endings to Unix whenever we parse input. This is a much larger change, but would mean we can always assume Unix line endings, making parsing of the input easier.
+
+
         [Test]
         public void ApplyingPatchWithInconsistentMacLineEndingsIsSuccessfullyApplied()
         {
