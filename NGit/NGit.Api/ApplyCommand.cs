@@ -230,8 +230,13 @@ namespace NGit.Api
             foreach (HunkHeader hh in fh.GetHunks())
 			{
 				var buffer = Sharpen.Runtime.GetStringForBytes(hh.GetBuffer(), hh.GetStartOffset(), hh.GetEndOffset() - hh.GetStartOffset());
-			    containedCRLF |= buffer.Contains("\r\n");
-				hrt = new RawText(Sharpen.Runtime.GetBytesForString(buffer));
+
+                if (!containedCRLF)
+			    {
+                    containedCRLF |= buffer.Contains("\r\n");
+                }
+
+                hrt = new RawText(Sharpen.Runtime.GetBytesForString(buffer));
 				IList<string> hunkLines = new AList<string>(hrt.Size());
 				for (int i_1 = 0; i_1 < hrt.Size(); i_1++)
 				{
