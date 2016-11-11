@@ -97,22 +97,6 @@ namespace NGit.Util
 			{
 				return gitExe.GetParentFile().GetParentFile();
 			}
-			// This isn't likely to work, if bash is in $PATH, git should
-			// also be in $PATH. But its worth trying.
-			//
-			string w = ReadPipe(UserHome(), new string[] { "bash", "--login", "-c", "which git"
-				 }, Encoding.Default.Name());
-			//
-			//
-			if (w != null)
-			{
-				// The path may be in cygwin/msys notation so resolve it right away
-				gitExe = Resolve(null, w);
-				if (gitExe != null)
-				{
-					return gitExe.GetParentFile().GetParentFile();
-				}
-			}
 			return null;
 		}
 
