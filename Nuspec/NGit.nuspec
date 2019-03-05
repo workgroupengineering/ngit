@@ -4,7 +4,7 @@
 	<metadata>
 		<id>RedGate.ThirdParty.NGit</id>
 		<version>$version$</version>
-		<title>NGit .NET 3.5</title>
+		<title>NGit</title>
 		<authors>Mono</authors>
 		<owners>Red Gate Software</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -12,8 +12,8 @@
 		<copyright>Copyright 2015</copyright>
 		<projectUrl>https://github.com/red-gate/ngit</projectUrl>
 		<dependencies>
-			<dependency id="RedGate.ThirdParty.Mono.Security" version="$monoSecurityVersionFromPackagesConfig$" />
-			<dependency id="ICSharpCode.SharpZipLib.dll" version="$csharpcodeVersionFromPackagesConfig$" />
+			<dependency id="Mono.Security" version="$monoSecurityVersionFromPackagesConfig$" />
+			<dependency id="SharpZipLib" version="$csharpcodeVersionFromPackagesConfig$" />
 		</dependencies>
 	</metadata>
 	<files>
@@ -26,7 +26,5 @@
 		<file src="NSch.license.txt" target="App_Readme" />
 		<file src="bin\Sharpen.dll" target="lib" />
 		<file src="bin\Sharpen.pdb" target="lib" />
-		<file src="Install\WiX2\Source Files\Export\RedGate.ThirdParty.NGit.wxs" target="wix2" />
-		<file src="Install\WiX2\Source Files\Export\ICSharpCode.SharpZipLib.wxs" target="wix2" />
 	</files>
 </package>
