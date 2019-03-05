@@ -12,8 +12,8 @@
 		<copyright>Copyright 2015</copyright>
 		<projectUrl>https://github.com/red-gate/ngit</projectUrl>
 		<dependencies>
-			<dependency id="Mono.Security" version="[5.4.0.201]" />
-			<dependency id="SharpZipLib" version="[1.1.0]" />
+			<dependency id="Mono.Security" version="$monoSecurityVersionFromPackagesConfig$" />
+			<dependency id="SharpZipLib" version="$csharpcodeVersionFromPackagesConfig$" />
 		</dependencies>
 	</metadata>
 	<files>
