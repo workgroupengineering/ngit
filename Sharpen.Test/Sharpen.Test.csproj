@@ -4,6 +4,7 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>../rgMono.snk</AssemblyOriginatorKeyFile>
+        <OutputPath>..\bin\</OutputPath>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="NUnit" Version="2.6.4" />
