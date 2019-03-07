@@ -88,10 +88,8 @@ namespace NGit.Transport
 			Register(TransportBundleFile.PROTO_BUNDLE);
 //			Register(TransportAmazonS3.PROTO_S3);
 			Register(TransportGitAnon.PROTO_GIT);
-			Register(TransportSftp.PROTO_SFTP);
 			Register(TransportHttp.PROTO_FTP);
 			Register(TransportHttp.PROTO_HTTP);
-			Register(TransportGitSsh.PROTO_SSH);
 //			RegisterByService();
 		}
 		/*

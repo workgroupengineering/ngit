@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGit", "NGit\NGit.csproj", "{E3BFF8B4-189C-496A-A817-7E8B31E22B91}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGit.Test", "NGit.Test\NGit.Test.csproj", "{E1FA8F29-5BAB-4FB7-8362-B8CE67ECF7C2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSch", "NSch\NSch.csproj", "{A19E6F3F-A25B-4B01-8922-CF0CC35C781D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpen", "Sharpen\Sharpen.csproj", "{72944A6C-45FF-4EF8-B349-8C9CABF519D4}"
 EndProject
@@ -37,14 +35,6 @@ Global
 		{E1FA8F29-5BAB-4FB7-8362-B8CE67ECF7C2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E1FA8F29-5BAB-4FB7-8362-B8CE67ECF7C2}.ReleaseWin|Any CPU.ActiveCfg = Release|Any CPU
 		{E1FA8F29-5BAB-4FB7-8362-B8CE67ECF7C2}.ReleaseWin|Any CPU.Build.0 = Release|Any CPU
-		{A19E6F3F-A25B-4B01-8922-CF0CC35C781D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A19E6F3F-A25B-4B01-8922-CF0CC35C781D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A19E6F3F-A25B-4B01-8922-CF0CC35C781D}.DebugWin|Any CPU.ActiveCfg = Debug|Any CPU
-		{A19E6F3F-A25B-4B01-8922-CF0CC35C781D}.DebugWin|Any CPU.Build.0 = Debug|Any CPU
-		{A19E6F3F-A25B-4B01-8922-CF0CC35C781D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A19E6F3F-A25B-4B01-8922-CF0CC35C781D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A19E6F3F-A25B-4B01-8922-CF0CC35C781D}.ReleaseWin|Any CPU.ActiveCfg = Release|Any CPU
-		{A19E6F3F-A25B-4B01-8922-CF0CC35C781D}.ReleaseWin|Any CPU.Build.0 = Release|Any CPU
 		{72944A6C-45FF-4EF8-B349-8C9CABF519D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{72944A6C-45FF-4EF8-B349-8C9CABF519D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72944A6C-45FF-4EF8-B349-8C9CABF519D4}.DebugWin|Any CPU.ActiveCfg = Debug|Any CPU
@@ -64,6 +54,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8C7096A3-3D73-422F-B3A5-57AF81BE2064}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = NGit\NGit.csproj
