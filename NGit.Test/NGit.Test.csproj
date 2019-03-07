@@ -25,5 +25,156 @@
     <EmbeddedResource Include="resources\NGit.Diff\FileCasing.patch" />
     <EmbeddedResource Include="resources\NGit.Diff\FileCasing_PostImage" />
     <EmbeddedResource Include="resources\NGit.Diff\FileCasing_PreImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\E.patch" />
+    <EmbeddedResource Include="resources\NGit.Diff\E_PostImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\E_PreImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\testContext0.out" />
+    <EmbeddedResource Include="resources\NGit.Diff\testContext1.out" />
+    <EmbeddedResource Include="resources\NGit.Diff\testContext10.out" />
+    <EmbeddedResource Include="resources\NGit.Diff\testContext100.out" />
+    <EmbeddedResource Include="resources\NGit.Diff\testContext3.out" />
+    <EmbeddedResource Include="resources\NGit.Diff\testContext5.out" />
+    <EmbeddedResource Include="resources\NGit.Diff\X.patch" />
+    <EmbeddedResource Include="resources\NGit.Diff\X_PostImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\X_PreImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\Y.patch" />
+    <EmbeddedResource Include="resources\NGit.Diff\Y_PostImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\Y_PreImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\Z.patch" />
+    <EmbeddedResource Include="resources\NGit.Diff\Z_PostImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\Z_PreImage" />
+    <EmbeddedResource Include="resources\NGit.Patch\testEditList_Types.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testError_BodyTooLong.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testError_CcTruncatedOld.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testError_DisconnectedHunk.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testError_GarbageBetweenFiles.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testError_GitBinaryNoForwardHunk.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testError_TruncatedNew.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testError_TruncatedOld.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testGetText_BothISO88591.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testGetText_Convert.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testGetText_DiffCc.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testGetText_NoBinary.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testParse_AddNoNewline.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testParse_CcDeleteFile.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testParse_CcNewFile.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testParse_ConfigCaseInsensitive.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testParse_FixNoNewline.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testParse_GitBinaryDelta.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testParse_GitBinaryLiteral.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testParse_NoBinary.patch" />
+    <EmbeddedResource Include="resources\NGit.Patch\testParse_OneFileCc.patch" />
+    <EmbeddedResource Include="resources\global\all_packed_objects.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\create-second-pack">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\gitgit.index">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\gitgit.index.aaaa">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\gitgit.index.badchecksum">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\gitgit.index.v3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\gitgit.index.ZZZZ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\gitgit.lsfiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\gitgit.lstree">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-3280af9c07ee18a87705ef50b0cc4cd20266cf12.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-3280af9c07ee18a87705ef50b0cc4cd20266cf12.pack">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.idxV2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.pack">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-546ff360fe3488adb20860ce3436a2d6373d2796.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-546ff360fe3488adb20860ce3436a2d6373d2796.pack">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-9fb5b411fe6dfa89cc2e6b89d2bd8e5de02b5745.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-9fb5b411fe6dfa89cc2e6b89d2bd8e5de02b5745.pack">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-cbdeda40019ae0e6e789088ea0f51f164f489d14.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-cbdeda40019ae0e6e789088ea0f51f164f489d14.pack">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-df2982f284bbabb6bdb59ee3fcc6eb0983e20371.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-df2982f284bbabb6bdb59ee3fcc6eb0983e20371.idxV2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-df2982f284bbabb6bdb59ee3fcc6eb0983e20371.pack">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-e6d07037cbcf13376308a0a995d1fa48f8f76aaa.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-e6d07037cbcf13376308a0a995d1fa48f8f76aaa.pack">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\packed-refs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\pack-huge.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\global\excludeTest\src\test.stp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\GermanTranslatedBundle.properties">
+      <LogicalName>NGit.Nls.GermanTranslatedBundle.properties</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\GermanTranslatedBundle_de.properties">
+      <LogicalName>NGit.Nls.GermanTranslatedBundle_de.properties</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\MissingPropertyBundle.properties">
+      <LogicalName>NGit.Nls.MissingPropertyBundle.properties</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\NonTranslatedBundle.properties">
+      <LogicalName>NGit.Nls.NonTranslatedBundle.properties</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\NGit.Diff\A1_PostImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\A1.patch" />
+    <EmbeddedResource Include="resources\NGit.Diff\A2_PostImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\A2.patch" />
+    <EmbeddedResource Include="resources\NGit.Diff\D_PreImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\D.patch" />
+    <EmbeddedResource Include="resources\NGit.Diff\F1_PreImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\F1.patch" />
+    <EmbeddedResource Include="resources\NGit.Diff\F2_PreImage" />
+    <EmbeddedResource Include="resources\NGit.Diff\F2.patch" />
+    <EmbeddedResource Include="resources\NGit.Diff\A1_sub.patch" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="resources\global\dircache.testRemovedSubtree">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
