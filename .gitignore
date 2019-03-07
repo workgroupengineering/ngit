@@ -14,3 +14,4 @@ test-results
 /gen/sharpen-options
 /gen/source
 packages/
+.vs/
