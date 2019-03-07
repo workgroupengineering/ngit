@@ -411,11 +411,6 @@
     <Compile Include="NGit.Transport\TransportHttp.cs" />
     <Compile Include="NGit.Util\HttpSupport.cs" />
     <Compile Include="NGit.Transport\TransportLocal.cs" />
-    <Compile Include="NGit.Transport\DefaultSshSessionFactory.cs" />
-    <Compile Include="NGit.Transport\SshSessionFactory.cs" />
-    <Compile Include="NGit.Transport\SshTransport.cs" />
-    <Compile Include="NGit.Transport\TransportGitSsh.cs" />
-    <Compile Include="NGit.Transport\TransportSftp.cs" />
     <Compile Include="NGit.Diff\ContentSource.cs" />
     <Compile Include="NGit.Diff\DiffAlgorithm.cs" />
     <Compile Include="NGit.Diff\HashedSequence.cs" />
@@ -454,7 +449,6 @@
     <Compile Include="NGit.Merge\MergeMessageFormatter.cs" />
     <Compile Include="NGit.Transport\CredentialItem.cs" />
     <Compile Include="NGit.Transport\CredentialsProvider.cs" />
-    <Compile Include="NGit.Transport\CredentialsProviderUserInfo.cs" />
     <Compile Include="NGit.Transport\UsernamePasswordCredentialsProvider.cs" />
     <Compile Include="NGit.Errors\UnsupportedCredentialItem.cs" />
     <Compile Include="NGit.Storage.File\WriteConfig.cs" />
@@ -503,8 +497,6 @@
     <Compile Include="NGit.Util\BlockList.cs" />
     <Compile Include="NGit\ObjectIdOwnerMap.cs" />
     <Compile Include="NGit.Transport\TransportProtocol.cs" />
-    <Compile Include="NGit.Transport\JschConfigSessionFactory.cs" />
-    <Compile Include="NGit.Transport\JschSession.cs" />
     <Compile Include="NGit.Transport\RemoteSession.cs" />
     <Compile Include="NGit.Api\CherryPickResult.cs" />
     <Compile Include="NGit.Api\Status.cs" />
@@ -601,10 +593,6 @@
     <ProjectReference Include="..\Sharpen\Sharpen.csproj">
       <Project>{72944A6C-45FF-4EF8-B349-8C9CABF519D4}</Project>
       <Name>Sharpen</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSch\NSch.csproj">
-      <Project>{A19E6F3F-A25B-4B01-8922-CF0CC35C781D}</Project>
-      <Name>NSch</Name>
     </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>

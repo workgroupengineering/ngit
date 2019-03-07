@@ -921,15 +921,6 @@ namespace NGit.Transport
 
 		/// <exception cref="Sharpen.URISyntaxException"></exception>
 		[NUnit.Framework.Test]
-		public virtual void TestMissingPort()
-		{
-			string incorrectSshUrl = "ssh://some-host:/path/to/repository.git";
-			URIish u = new URIish(incorrectSshUrl);
-			NUnit.Framework.Assert.IsFalse(TransportGitSsh.PROTO_SSH.CanHandle(u));
-		}
-
-		/// <exception cref="Sharpen.URISyntaxException"></exception>
-		[NUnit.Framework.Test]
 		public virtual void TestALot()
 		{
 			// user pass host port path

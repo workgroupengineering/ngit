@@ -11,7 +11,6 @@ a port of jsch [3], included in the project.
 The project is composed by 4 libraries:
 - NGit: The git library.
 - NGit.Test: Unit tests for NGit
-- NSch: The port of jsch.
 - Sharpen: Some support classes required by the above libraries.
 
 The code included in this project is already converted, so to use it
@@ -24,7 +23,6 @@ COMPILING
 ---------
 The port depends on two external libraries:
   - ICSharpCode.SharpZipLib
-  - Mono.Security
   - Mono.Posix (optional)
 
 If you are compiling with Mono then these libraries will be available in
