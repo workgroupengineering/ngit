@@ -1,0 +1,15 @@
+source https://nuget.org/api/v2
+source http://TODO:_internal_nuget_server_hostname/api/v2
+
+# You'll probably need nuget.exe in order to `nuget restore`, `nuget pack` and `nuget push`
+nuget Nuget.CommandLine ~> 3
+
+# https://github.com/nightroman/Invoke-Build
+# https://github.com/nightroman/Invoke-Build/wiki/Script-Tutorial
+nuget Invoke-Build ~> 3
+
+# Contains useful helper functions for powershell build scripts
+nuget RedGate.Build ~> 0.1
+
+# Contains useful helper functions to build installers
+nuget RedGate.Build.Installer ~> 1
