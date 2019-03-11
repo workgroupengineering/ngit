@@ -139,12 +139,17 @@ task Compile Init, UpdateVersionInfo, {
 # Synopsis: Execute our unit tests
 task UnitTests {
     "$RootDir\bin\net461\*.Test.dll" | Resolve-Path | ForEach-Object {
-    Invoke-NUnitForAssembly `
-        -AssemblyPath $_ `
-        -NUnitVersion "2.6.4" `
-        -FrameworkVersion "net-4.0" `
-        -EnableCodeCoverage $false `
-        -ExcludedCategories @('Explicit') `
+        try {
+            Invoke-NUnitForAssembly `
+                -AssemblyPath $_ `
+                -NUnitVersion "2.6.4" `
+                -FrameworkVersion "net-4.0" `
+                -EnableCodeCoverage $false `
+                -ExcludedCategories @('Explicit') `
+        }
+        catch {
+            Write-Host "Error while running tests: $_"
+        }
     }
 }
 
