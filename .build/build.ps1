@@ -5,20 +5,18 @@ param(
     [bool] $IsDefaultBranch = $false,
     [string] $NugetFeedUrl,
     [string] $NugetFeedApiKey,
-    [string] $SigningServiceUrl,
-    [string] $GithubAPIToken
+    [string] $SigningServiceUrl
 )
 
 $RootDir = "$PsScriptRoot\.." | Resolve-Path
 $OutputDir = "$RootDir\.output\$Configuration"
 $LogsDir = "$OutputDir\logs"
 $NugetPackageOutputDir = "$OutputDir\nugetpackages"
-$Solution = 'TODO: <path to the solution file>'
+$Solution = "$RootDir\ngit.sln"
 # We probably don't want to publish every single nuget package ever built to our external feed.
 # Let's only publish packages built from the default branch (master) by default.
 $PublishNugetPackages = $env:TEAMCITY_VERSION -and $IsDefaultBranch
 $NugetExe = "$PSScriptRoot\packages\Nuget.CommandLine\tools\Nuget.exe" | Resolve-Path
-$Repo = "TODO: Github Repo Name"
 
 # Installer building routines are stored in a separate file
 # . $PSScriptRoot\installer.tasks.ps1
@@ -47,36 +45,6 @@ function GenerateVersionInformationFromReleaseNotesMd([int] $VersionSuffix) {
     TeamCity-PublishArtifact "$ReleaseNotesPath"
 }
 
-# Synopsis: Retrieve two part semantic version information and release notes from $RootDir\RELEASENOTES.md
-# $script:Version = Major.Minor.$VersionSuffix
-# $script:AssemblyVersion = Major.0.0.0
-# $script:AssemblyFileVersion = Major.Minor.$VersionSuffix.0
-# $script:ReleaseNotes = read from RELEASENOTES.md
-function GenerateSemVerInformationFromReleaseNotesMd([int] $VersionSuffix) {
-    $ReleaseNotesPath = "$RootDir\RELEASENOTES.md" | Resolve-Path
-    $Notes = Read-ReleaseNotes -ReleaseNotesPath $ReleaseNotesPath
-    $script:Version = [System.Version] "$($Notes.Version).$VersionSuffix"
-    $script:ReleaseNotes = [string] $Notes.Content
-
-    # Establish assembly version number
-    $script:AssemblyVersion = [version] "$($script:Version.Major).0.0.0"
-    $script:AssemblyFileVersion = [version] "$script:Version.0"
-    
-    TeamCity-PublishArtifact "$ReleaseNotesPath"
-}
-
-# Synopsis: Retrieve three part version information from .build\version.txt
-# $script:Version = Major.Minor.Build.$VersionSuffix
-# $script:AssemblyVersion = Major.Minor.Build.$VersionSuffix
-# $script:AssemblyFileVersion = Major.Minor.Build.$VersionSuffix
-# $script:ReleaseNotes = ''
-function GetVersionInformationFromVersionTxt([int] $VersionSuffix) {
-    $script:Version = [System.Version] "$(Get-Content version.txt).$VersionSuffix"
-    $script:AssemblyVersion = $script:Version
-    $script:AssemblyFileVersion = $script:Version
-    $script:ReleaseNotes = ''
-}
-
 # Ensures the following are set
 # $script:Version
 # $script:AssemblyVersion
@@ -92,10 +60,7 @@ task GenerateVersionInformation {
         $versionSuffix = $env:BUILD_NUMBER
     }
   
-    throw 'TODO: Either rely on GetVersionInformationFromVersionTxt, GenerateVersionInformationFromReleaseNotesMd, or GenerateSemVerInformationFromReleaseNotesMd - the latter is normal for libraries'
-    # GetVersionInformationFromVersionTxt($versionSuffix)
-    # GenerateVersionInformationFromReleaseNotesMd($versionSuffix)
-    # GenerateSemVerInformationFromReleaseNotesMd($versionSuffix)
+    GenerateVersionInformationFromReleaseNotesMd($versionSuffix)
     
     TeamCity-SetBuildNumber $script:Version
     
@@ -138,12 +103,12 @@ task UpdateVersionInfo GenerateVersionInformation, {
 # Synopsis: Update the nuspec dependencies versions based on the versions of the nuget packages that are being used
 task UpdateNuspecVersionInfo {
     # Find all the packages.config
-    $packageConfigs = Get-ChildItem "$RootDir" -Recurse -Filter "packages.config" `
+    $projectFiles = Get-ChildItem "$RootDir" -Recurse -Filter "*.csproj" `
                       | ?{ $_.fullname -notmatch "\\(.build)|(packages)\\" } `
                       | Resolve-Path
 
     # Update dependency verions in each of our .nuspec file based on what is in our packages.config
-    Resolve-Path "$RootDir\Nuspec\*.nuspec" | Update-NuspecDependenciesVersions -PackagesConfigPaths $packageConfigs -verbose
+    Resolve-Path "$RootDir\Nuspec\*.nuspec" | Update-NuspecDependenciesVersions -ProjectFilePaths $projectFiles -SpecificVersions -verbose
 }
 
 # Synopsis: A task that makes sure our initialization tasks have been run before we can do anything useful
@@ -151,9 +116,10 @@ task Init CreateFolders, RestoreNugetPackages, GenerateVersionInformation
 
 # Synopsis: Compile the Visual Studio solution
 task Compile Init, UpdateVersionInfo, {
+    use 15.0 MSBuild
     try {
         exec {
-            & "C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" `
+            & MSBuild `
                 "$Solution" `
                 /maxcpucount `
                 /nodereuse:false `
@@ -170,31 +136,16 @@ task Compile Init, UpdateVersionInfo, {
     }
 }
 
-# Synopsis: Sign all the RedGate assemblies (Release and Obfuscated)
-task SignAssemblies -If ($Configuration -eq 'Release' -and $SigningServiceUrl) {
-    throw 'TODO: use Invoke-SigningService from the RedGate.Build module'
-    # For example:
-    # Get-Item -Path "$RootDir\Build\Release\*.*" `
-    #     -Include 'Redgate*.dll', 'Redgate*.exe' `
-    #     | Invoke-SigningService -SigningServiceUrl $SigningServiceUrl -Verbose
-    #     
-    # Get-Item -Path "$RootDir\Build\Obfuscated\*.*" `
-    #     -Include 'Redgate*.dll', 'Redgate*.exe' `
-    #     | Invoke-SigningService -SigningServiceUrl $SigningServiceUrl -Verbose        
-}
-
 # Synopsis: Execute our unit tests
 task UnitTests {
-    throw 'TODO: use Invoke-NUnitForAssembly and Merge-CoverageReports from the RedGate.Build module'
-    # For example:
-    # Invoke-NUnitForAssembly `
-    #     -AssemblyPath "$RootDir\Build\Release\RedGate.Tests.dll" `
-    #     -NUnitVersion "2.6.4" `
-    #     -FrameworkVersion "net-4.0" `
-    #     -EnableCodeCoverage $true `
-    # 
-    # Merge-CoverageReports `
-    #     -SnapshotsDir "$RootDir\Build\Release"
+    "$RootDir\bin\net461\*.Test.dll" | Resolve-Path | ForEach-Object {
+    Invoke-NUnitForAssembly `
+        -AssemblyPath $_ `
+        -NUnitVersion "2.6.4" `
+        -FrameworkVersion "net-4.0" `
+        -EnableCodeCoverage $false `
+        -ExcludedCategories @('Explicit') `
+    }
 }
 
 # Synopsis: Build the nuget packages.
@@ -204,7 +155,7 @@ task BuildNugetPackages Init, UpdateNuspecVersionInfo, {
     $escaped=$ReleaseNotes.Replace('"','\"')
     $properties = "releaseNotes=$escaped"
     
-    "$RootDir\Nuspec\*.nuspec" | Resolve-Path | ForEach {
+    "$RootDir\Nuspec\*.nuspec" | Resolve-Path | ForEach-Object {
         exec {
             & $NugetExe pack $_ `
                 -Version $NugetPackageVersion `
@@ -223,31 +174,13 @@ task PublishNugetPackages -If($PublishNugetPackages) {
   assert ($NugetFeedUrl) '$NugetFeedUrl is missing. Cannot publish nuget packages'
   assert ($NugetFeedApiKey) '$NugetFeedApiKey is missing. Cannot publish nuget packages'
 
-  Get-ChildItem $NugetPackageOutputDir -Filter "*.nupkg" | ForEach {
+  Get-ChildItem $NugetPackageOutputDir -Filter "*.nupkg" | ForEach-Object {
     & $NugetExe push $_.FullName -Source $NugetFeedUrl -ApiKey $NugetFeedApiKey
   }
 }
 
-task BuildArtifacts {
-  TeamCity-PublishArtifact "$RootDir\Build\** => Build.zip"
-}
-
-#Synopsis: Update the RedGate Nuget Packages
-task UpdateRedgateNugetPackages RestoreNugetPackages, {
-    assert $GithubAPIToken "GithubAPIToken has not been set!"
-
-    # skip RedGate.CodeHygiene since it brings in NUnit 3
-    Update-RedgateNugetPackages -Repo $Repo `
-        -GithubAPIToken $GithubAPIToken `
-        -RootDir $RootDir `
-        -Solution $Solution `
-        -Assignees  @('TODO', 'TODO') `
-        -Labels @('TODO', 'TODO') `
-        -ExcludedPackages  @('TODO', 'TODO') `
-}
-
 # Synopsis: Build the project.
-task Build Init, Compile, UnitTests, SignAssemblies, BuildArtifacts, BuildNugetPackages, PublishNugetPackages
+task Build Init, Compile, UnitTests, BuildNugetPackages, PublishNugetPackages
 
 # Synopsis: By default, Call the 'Build' task
 task . Build

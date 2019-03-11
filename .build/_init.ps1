@@ -75,10 +75,7 @@ function global:Build {
     {
       # Import the RedGate.Build module.
       Import-Module '.\packages\RedGate.Build\tools\RedGate.Build.psm1' -Force -DisableNameChecking
-      
-      # If building installers you need the RedGate.Build.Installers module too
-      Import-Module ".\packages\RedGate.Build.Installer\tools\RedGate.Build.Installer.psm1" -Force -DisableNameChecking
-      
+           
       # Call the actual build script
       & '.\packages\Invoke-Build\tools\Invoke-Build.ps1' `
         -File .\build.ps1 `
@@ -88,7 +85,6 @@ function global:Build {
         -NugetFeedUrl $NugetFeedUrl `
         -NugetFeedApiKey $NugetFeedApiKey `
         -SigningServiceUrl $SigningServiceUrl `
-        -GithubAPIToken $GithubAPIToken `
     }
     finally
     {
