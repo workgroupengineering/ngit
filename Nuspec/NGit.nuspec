@@ -17,10 +17,10 @@
 	</metadata>
 	<files>
 		<file src="Nuspec\RedGate.ThirdParty.NGit.targets" target="build" />
-		<file src="bin\netstandard2.0\NGit.dll" target="lib\netstandard2.0\NGit.dll" />
-		<file src="bin\netstandard2.0\NGit.pdb" target="lib\netstandard2.0\NGit.pdb" />
+		<file src="NGit\bin\$configuration$\netstandard2.0\NGit.*" target="lib\netstandard2.0" />
+		<file src="NGit\bin\$configuration$\net461\NGit.*" target="lib\net461" />
 		<file src="NGit.license.txt" target="App_Readme" />
-		<file src="bin\netstandard2.0\Sharpen.dll" target="lib\netstandard2.0\Sharpen.dll" />
-		<file src="bin\netstandard2.0\Sharpen.pdb" target="lib\netstandard2.0\Sharpen.pdb" />
+		<file src="Sharpen\bin\$configuration$\netstandard2.0\Sharpen.*" target="lib\netstandard2.0" />
+		<file src="Sharpen\bin\$configuration$\net461\Sharpen.*" target="lib\net461" />
 	</files>
 </package>
