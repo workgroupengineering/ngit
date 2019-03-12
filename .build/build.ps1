@@ -157,8 +157,7 @@ task UnitTests {
 task BuildNugetPackages Init, UpdateNuspecVersionInfo, {
     New-Item $NugetPackageOutputDir -ItemType Directory -Force | Out-Null
 
-    $escaped=$ReleaseNotes.Replace('"','\"')
-    $properties = "releaseNotes=$escaped;configuration=$Configuration"
+    $properties = "configuration=$Configuration"
     
     "$RootDir\Nuspec\*.nuspec" | Resolve-Path | ForEach-Object {
         exec {
