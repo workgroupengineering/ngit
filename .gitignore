@@ -15,3 +15,6 @@ test-results
 /gen/source
 packages/
 .vs/
+.paket/
+paket.lock
+.output/**/*.*
