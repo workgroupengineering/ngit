@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <OutputPath>..\bin</OutputPath>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../rgMono.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
