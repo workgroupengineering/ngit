@@ -85,7 +85,7 @@ namespace NGit.Util.IO
 			@out.Write(cbuf, off, len);
 		}
 
-        public override Encoding Encoding { get; }
+        public override Encoding Encoding => @out.Encoding;
 
         /// <exception cref="System.IO.IOException"></exception>
 		public override void Flush()
