@@ -138,7 +138,7 @@ task Compile Init, UpdateVersionInfo, {
 
 # Synopsis: Execute our unit tests
 task UnitTests {
-    "$RootDir\bin\net461\*.Test.dll" | Resolve-Path | ForEach-Object {
+    @("$RootDir\NGit.Test\bin\$Configuration\net461\NGit.Test.dll", "$RootDir\Sharpen.Test\bin\$Configuration\net461\Sharpen.Test.dll") | Resolve-Path | ForEach-Object {
         try {
             Invoke-NUnitForAssembly `
                 -AssemblyPath $_ `
