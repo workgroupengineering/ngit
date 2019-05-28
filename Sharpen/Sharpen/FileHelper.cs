@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Reflection;
 
 namespace Sharpen
 {
@@ -12,22 +11,7 @@ namespace Sharpen
 		
 		static FileHelper ()
 		{
-			if (Environment.OSVersion.Platform.ToString ().StartsWith ("Win"))
-				Instance = new FileHelper ();
-			else {
-				var ufh = Type.GetType("Sharpen.Unix.UnixFileHelper");
-				if (ufh == null) {
-					ufh = Type.GetType("Sharpen.Unix.UnixFileHelper, Sharpen.Unix");
-				}
-				if (ufh == null) {
-					var path = ((FilePath) typeof (FileHelper).Assembly.Location).GetParent();
-					var assembly = Assembly.LoadFile(Path.Combine(path, "Sharpen.Unix.dll"));
-					if (assembly == null)
-						throw new Exception("Sharpen.Unix.dll is required when running on a Unix based system");
-					ufh = assembly.GetType("Sharpen.Unix.UnixFileHelper");
-				}
-				Instance = (FileHelper)Activator.CreateInstance (ufh);
-			}
+			Instance = new FileHelper();
 		}
 
 		public virtual bool CanExecute (FilePath path)
