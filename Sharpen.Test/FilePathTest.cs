@@ -1,13 +1,14 @@
 using System;
 using NUnit.Framework;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Sharpen.Test
 {
 	[TestFixture]
 	public class FilePathTest
 	{
-		static bool RunningOnLinux = !Environment.OSVersion.Platform.ToString().StartsWith("Win");
+		static bool RunningOnLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 	    private static string CurrentDriveLetter = Path.GetPathRoot(Environment.CurrentDirectory);
 
 		[Test]
