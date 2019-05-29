@@ -42,7 +42,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System.Globalization;
-using NGit.Nls;
 using Sharpen;
 
 namespace NGit.Nls
@@ -64,12 +63,12 @@ namespace NGit.Nls
 
 		[NUnit.Framework.Test]
 		public virtual void TestJVMDefaultLocale()
-		{
-			System.Threading.Thread.CurrentThread.CurrentCulture = NLS.ROOT_LOCALE;
+        {
+            CultureInfo.CurrentCulture = NLS.ROOT_LOCALE;
 			NLS.UseJVMDefaultLocale();
 			GermanTranslatedBundle bundle = GermanTranslatedBundle.Get();
 			NUnit.Framework.Assert.AreEqual(NLS.ROOT_LOCALE, bundle.EffectiveLocale());
-			System.Threading.Thread.CurrentThread.CurrentCulture = Sharpen.Extensions.GetGermanCulture();
+			CultureInfo.CurrentCulture = Sharpen.Extensions.GetGermanCulture();
 			NLS.UseJVMDefaultLocale();
 			bundle = GermanTranslatedBundle.Get();
 			NUnit.Framework.Assert.AreEqual(Sharpen.Extensions.GetGermanCulture(), bundle.EffectiveLocale
