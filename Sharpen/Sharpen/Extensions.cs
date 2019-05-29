@@ -763,15 +763,8 @@ namespace Sharpen
 			s.Listen (backlog);
 			return s;
 		}
-		
-		public static Socket CreateSocket (string host, int port)
-		{
-			Socket s = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-			s.Connect (host, port);
-			return s;
-		}
-		
-		public static Socket CreateSocket ()
+
+        public static Socket CreateSocket ()
 		{
 			return new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 		}
