@@ -289,7 +289,7 @@ namespace NGit.Util
 		/// <p>
 		/// Note: this method should not be used for file-locking, as the resulting
 		/// protocol cannot be made to work reliably. The
-		/// <see cref="Sharpen.FileLock">Sharpen.FileLock</see>
+		/// FileLock
 		/// facility
 		/// should be used instead.
 		/// </remarks>

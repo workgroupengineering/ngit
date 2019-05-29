@@ -63,17 +63,7 @@ namespace Sharpen
 			return s.Length;
 		}
 
-		public FileLock TryLock ()
-		{
-			try {
-				s.Lock (0, int.MaxValue);
-				return new FileLock (s);
-			} catch (IOException) {
-				return null;
-			}
-		}
-
-		public int Write (byte[] buffer)
+        public int Write (byte[] buffer)
 		{
 			s.Write (buffer, 0, buffer.Length);
 			return buffer.Length;
