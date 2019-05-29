@@ -145,7 +145,9 @@ namespace Sharpen
 		
 		public void Abort ()
 		{
-			thread.Abort ();
+#if NETFRAMEWORK
+ 			thread.Abort ();           
+#endif
 		}
 		
 	}

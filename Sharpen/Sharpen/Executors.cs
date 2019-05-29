@@ -115,7 +115,9 @@ namespace Sharpen
 				}
 				result = c.Call ();
 			} catch (ThreadAbortException ex) {
+#if NETFRAMEWORK
 				SThread.ResetAbort ();
+#endif
 				error = ex;
 			} catch (Exception ex) {
 				error = ex;
@@ -138,7 +140,9 @@ namespace Sharpen
 				if (started) {
 					if (mayInterruptIfRunning) {
 						try {
+#if NETFRAMEWORK
 							t.Abort ();
+#endif
 						} catch {}
 					}
 					else
