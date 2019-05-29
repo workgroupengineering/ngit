@@ -737,10 +737,20 @@ namespace Sharpen
 		
 		public static void Connect (this Socket socket, EndPoint ep, int timeout)
 		{
-			try {
-				IAsyncResult res = socket.BeginConnect (ep,null, null);
-				if (!res.AsyncWaitHandle.WaitOne (timeout > 0 ? timeout : Timeout.Infinite, true))
+            timeout = timeout > 0 ? timeout : Timeout.Infinite;
+			try
+            {
+#if NETFRAMEWORK
+                var res = socket.BeginConnect(ep, null, null);
+                if (!res.AsyncWaitHandle.WaitOne (timeout, true))
+#else
+                var task = socket.ConnectAsync(ep);
+                if (!task.Wait(timeout))
+#endif
+                {
 					throw new IOException ("Connection timeout");
+                }
+
 			} catch (SocketException se) {
 				throw new IOException (se.Message);
 			}
