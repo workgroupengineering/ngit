@@ -42,122 +42,121 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System.Globalization;
-using NGit.Nls;
 using Sharpen;
 
 namespace NGit.Nls
 {
-	[NUnit.Framework.TestFixture]
-	public class NLSTest
-	{
-		[NUnit.Framework.Test]
-		public virtual void TestNLSLocale()
-		{
-			NLS.SetLocale(NLS.ROOT_LOCALE);
-			GermanTranslatedBundle bundle = GermanTranslatedBundle.Get();
-			NUnit.Framework.Assert.AreEqual(NLS.ROOT_LOCALE, bundle.EffectiveLocale());
-			NLS.SetLocale(Sharpen.Extensions.GetGermanCulture());
-			bundle = GermanTranslatedBundle.Get();
-			NUnit.Framework.Assert.AreEqual(Sharpen.Extensions.GetGermanCulture(), bundle.EffectiveLocale
-				());
-		}
+    [NUnit.Framework.TestFixture]
+    public class NLSTest
+    {
+        [NUnit.Framework.Test]
+        public virtual void TestNLSLocale()
+        {
+            NLS.SetLocale(NLS.ROOT_LOCALE);
+            GermanTranslatedBundle bundle = GermanTranslatedBundle.Get();
+            NUnit.Framework.Assert.AreEqual(NLS.ROOT_LOCALE, bundle.EffectiveLocale());
+            NLS.SetLocale(Sharpen.Extensions.GetGermanCulture());
+            bundle = GermanTranslatedBundle.Get();
+            NUnit.Framework.Assert.AreEqual(Sharpen.Extensions.GetGermanCulture(), bundle.EffectiveLocale
+                ());
+        }
 
-		[NUnit.Framework.Test]
-		public virtual void TestJVMDefaultLocale()
-		{
-			System.Threading.Thread.CurrentThread.CurrentCulture = NLS.ROOT_LOCALE;
-			NLS.UseJVMDefaultLocale();
-			GermanTranslatedBundle bundle = GermanTranslatedBundle.Get();
-			NUnit.Framework.Assert.AreEqual(NLS.ROOT_LOCALE, bundle.EffectiveLocale());
-			System.Threading.Thread.CurrentThread.CurrentCulture = Sharpen.Extensions.GetGermanCulture();
-			NLS.UseJVMDefaultLocale();
-			bundle = GermanTranslatedBundle.Get();
-			NUnit.Framework.Assert.AreEqual(Sharpen.Extensions.GetGermanCulture(), bundle.EffectiveLocale
-				());
-		}
+        [NUnit.Framework.Test]
+        public virtual void TestJVMDefaultLocale()
+        {
+            CultureInfo.CurrentCulture = NLS.ROOT_LOCALE;
+            NLS.UseJVMDefaultLocale();
+            GermanTranslatedBundle bundle = GermanTranslatedBundle.Get();
+            NUnit.Framework.Assert.AreEqual(NLS.ROOT_LOCALE, bundle.EffectiveLocale());
+            CultureInfo.CurrentCulture = Sharpen.Extensions.GetGermanCulture();
+            NLS.UseJVMDefaultLocale();
+            bundle = GermanTranslatedBundle.Get();
+            NUnit.Framework.Assert.AreEqual(Sharpen.Extensions.GetGermanCulture(), bundle.EffectiveLocale
+                ());
+        }
 
-		/// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
-		[NUnit.Framework.Ignore (".NET does not have inherited thread locals")]
-		public virtual void TestThreadTranslationBundleInheritance()
-		{
-			NLS.SetLocale(NLS.ROOT_LOCALE);
-			GermanTranslatedBundle mainThreadsBundle = GermanTranslatedBundle.Get();
-			_T498707310 t = new _T498707310(this);
-			t.Start();
-			t.Join();
-			NUnit.Framework.Assert.AreSame(mainThreadsBundle, t.bundle);
-			NLS.SetLocale(Sharpen.Extensions.GetGermanCulture());
-			mainThreadsBundle = GermanTranslatedBundle.Get();
-			t = new _T498707310(this);
-			t.Start();
-			t.Join();
-			NUnit.Framework.Assert.AreSame(mainThreadsBundle, t.bundle);
-		}
+        /// <exception cref="System.Exception"></exception>
+        [NUnit.Framework.Test]
+        [NUnit.Framework.Ignore (".NET does not have inherited thread locals")]
+        public virtual void TestThreadTranslationBundleInheritance()
+        {
+            NLS.SetLocale(NLS.ROOT_LOCALE);
+            GermanTranslatedBundle mainThreadsBundle = GermanTranslatedBundle.Get();
+            _T498707310 t = new _T498707310(this);
+            t.Start();
+            t.Join();
+            NUnit.Framework.Assert.AreSame(mainThreadsBundle, t.bundle);
+            NLS.SetLocale(Sharpen.Extensions.GetGermanCulture());
+            mainThreadsBundle = GermanTranslatedBundle.Get();
+            t = new _T498707310(this);
+            t.Start();
+            t.Join();
+            NUnit.Framework.Assert.AreSame(mainThreadsBundle, t.bundle);
+        }
 
-		internal class _T498707310 : Sharpen.Thread
-		{
-			internal GermanTranslatedBundle bundle;
+        internal class _T498707310 : Sharpen.Thread
+        {
+            internal GermanTranslatedBundle bundle;
 
-			public override void Run()
-			{
-				this.bundle = GermanTranslatedBundle.Get();
-			}
+            public override void Run()
+            {
+                this.bundle = GermanTranslatedBundle.Get();
+            }
 
-			internal _T498707310(NLSTest _enclosing)
-			{
-				this._enclosing = _enclosing;
-			}
+            internal _T498707310(NLSTest _enclosing)
+            {
+                this._enclosing = _enclosing;
+            }
 
-			private readonly NLSTest _enclosing;
-		}
+            private readonly NLSTest _enclosing;
+        }
 
-		/// <exception cref="System.Exception"></exception>
-		/// <exception cref="Sharpen.ExecutionException"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestParallelThreadsWithDifferentLocales()
-		{
-			CyclicBarrier barrier = new CyclicBarrier(2);
-			// wait for the other thread to set its locale
-			ExecutorService pool = Executors.NewFixedThreadPool(2);
-			try
-			{
-				Future<TranslationBundle> root = pool.Submit(new _T879158014(this, NLS.ROOT_LOCALE,
-					barrier));
-				Future<TranslationBundle> german = pool.Submit(new _T879158014(this, Sharpen.Extensions.GetGermanCulture(),
-					barrier));
-				NUnit.Framework.Assert.AreEqual(NLS.ROOT_LOCALE, root.Get().EffectiveLocale());
-				NUnit.Framework.Assert.AreEqual(Sharpen.Extensions.GetGermanCulture(), german.Get
-					().EffectiveLocale());
-			}
-			finally
-			{
-				pool.Shutdown();
-				pool.AwaitTermination(long.MaxValue, TimeUnit.SECONDS);
-			}
-		}
+        /// <exception cref="System.Exception"></exception>
+        /// <exception cref="Sharpen.ExecutionException"></exception>
+        [NUnit.Framework.Test]
+        public virtual void TestParallelThreadsWithDifferentLocales()
+        {
+            CyclicBarrier barrier = new CyclicBarrier(2);
+            // wait for the other thread to set its locale
+            ExecutorService pool = Executors.NewFixedThreadPool(2);
+            try
+            {
+                Future<TranslationBundle> root = pool.Submit(new _T879158014(this, NLS.ROOT_LOCALE,
+                    barrier));
+                Future<TranslationBundle> german = pool.Submit(new _T879158014(this, Sharpen.Extensions.GetGermanCulture(),
+                    barrier));
+                NUnit.Framework.Assert.AreEqual(NLS.ROOT_LOCALE, root.Get().EffectiveLocale());
+                NUnit.Framework.Assert.AreEqual(Sharpen.Extensions.GetGermanCulture(), german.Get
+                    ().EffectiveLocale());
+            }
+            finally
+            {
+                pool.Shutdown();
+                pool.AwaitTermination(long.MaxValue, TimeUnit.SECONDS);
+            }
+        }
 
-		internal class _T879158014 : Callable<TranslationBundle>
-		{
-			private CultureInfo locale;
-			CyclicBarrier barrier;
+        internal class _T879158014 : Callable<TranslationBundle>
+        {
+            private CultureInfo locale;
+            CyclicBarrier barrier;
 
-			internal _T879158014(NLSTest _enclosing, CultureInfo locale, CyclicBarrier barrier)
-			{
-				this._enclosing = _enclosing;
-				this.locale = locale;
-				this.barrier = barrier;
-			}
+            internal _T879158014(NLSTest _enclosing, CultureInfo locale, CyclicBarrier barrier)
+            {
+                this._enclosing = _enclosing;
+                this.locale = locale;
+                this.barrier = barrier;
+            }
 
-			/// <exception cref="System.Exception"></exception>
-			public virtual TranslationBundle Call()
-			{
-				NLS.SetLocale(this.locale);
-				barrier.Await();
-				return GermanTranslatedBundle.Get();
-			}
+            /// <exception cref="System.Exception"></exception>
+            public virtual TranslationBundle Call()
+            {
+                NLS.SetLocale(this.locale);
+                barrier.Await();
+                return GermanTranslatedBundle.Get();
+            }
 
-			private readonly NLSTest _enclosing;
-		}
-	}
+            private readonly NLSTest _enclosing;
+        }
+    }
 }
