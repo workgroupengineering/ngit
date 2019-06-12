@@ -138,7 +138,10 @@ task Compile Init, UpdateVersionInfo, {
 
 # Synopsis: Execute our unit tests
 task UnitTests {
-    @("$RootDir\NGit.Test\bin\$Configuration\net461\NGit.Test.dll", "$RootDir\Sharpen.Test\bin\$Configuration\net461\Sharpen.Test.dll") | Resolve-Path | ForEach-Object {
+    @("$RootDir\NGit.Test\bin\$Configuration\net461\NGit.Test.dll", 
+    "$RootDir\NGit.Test\bin\$Configuration\netcoreapp2.1\NGit.Test.dll",
+    "$RootDir\Sharpen.Test\bin\$Configuration\net461\Sharpen.Test.dll",
+    "$RootDir\Sharpen.Test\bin\$Configuration\netcoreapp2.1\Sharpen.Test.dll") | Resolve-Path | ForEach-Object {
         try {
             if ($env:TEAMCITY_VERSION) {
                 dotnet vstest $_ --testcasefilter:"TestCategory!=Explicit" --logger:teamcity
