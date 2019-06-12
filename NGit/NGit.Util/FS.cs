@@ -288,7 +288,7 @@ namespace NGit.Util
 			{
 				return null;
 			}
-			foreach (string p in path.Split(FilePath.pathSeparator))
+			foreach (string p in path.RegexSplit(FilePath.pathSeparator))
 			{
 				foreach (string command in lookFor)
 				{

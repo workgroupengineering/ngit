@@ -188,7 +188,7 @@ namespace NGit.Util
 				}
 				return message;
 			}
-			string[] lines = message.Split("\n");
+			string[] lines = message.RegexSplit("\n");
 			int footerFirstLine = lines.Length;
 			for (int i_1 = lines.Length - 1; i_1 > 1; --i_1)
 			{

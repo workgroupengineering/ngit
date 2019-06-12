@@ -207,7 +207,7 @@ namespace NGit.Ignore
 				if (nameOnly)
 				{
 					//Iterate through each sub-name
-					string[] segments = target.Split("/");
+					string[] segments = target.RegexSplit("/");
 					for (int idx = 0; idx < segments.Length; idx++)
 					{
 						string segmentName = segments[idx];
@@ -226,7 +226,7 @@ namespace NGit.Ignore
 				{
 					return true;
 				}
-				string[] segments = target.Split("/");
+				string[] segments = target.RegexSplit("/");
 				if (nameOnly)
 				{
 					for (int idx = 0; idx < segments.Length; idx++)

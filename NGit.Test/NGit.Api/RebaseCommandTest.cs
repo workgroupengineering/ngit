@@ -871,7 +871,7 @@ namespace NGit.Api
 			PersonIdent ident = new PersonIdent("Author name", "a.mail@some.com", 123456789123L
 				, -60);
 			string convertedAuthor = git.Rebase().ToAuthorScript(ident);
-			string[] lines = convertedAuthor.Split("\n");
+			string[] lines = convertedAuthor.RegexSplit("\n");
 			NUnit.Framework.Assert.AreEqual("GIT_AUTHOR_NAME='Author name'", lines[0]);
 			NUnit.Framework.Assert.AreEqual("GIT_AUTHOR_EMAIL='a.mail@some.com'", lines[1]);
 			NUnit.Framework.Assert.AreEqual("GIT_AUTHOR_DATE='@123456789 -0100'", lines[2]);
@@ -887,7 +887,7 @@ namespace NGit.Api
 			// + 9.5h timezone offset
 			ident = new PersonIdent("Author name", "a.mail@some.com", 123456789123L, +570);
 			convertedAuthor = git.Rebase().ToAuthorScript(ident);
-			lines = convertedAuthor.Split("\n");
+			lines = convertedAuthor.RegexSplit("\n");
 			NUnit.Framework.Assert.AreEqual("GIT_AUTHOR_NAME='Author name'", lines[0]);
 			NUnit.Framework.Assert.AreEqual("GIT_AUTHOR_EMAIL='a.mail@some.com'", lines[1]);
 			NUnit.Framework.Assert.AreEqual("GIT_AUTHOR_DATE='@123456789 +0930'", lines[2]);

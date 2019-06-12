@@ -110,7 +110,7 @@ namespace NGit.Transport
 					{
 						opt = Sharpen.Runtime.Substring(opt, 1);
 					}
-					foreach (string c in opt.Split(" "))
+					foreach (string c in opt.RegexSplit(" "))
 					{
 						opts.AddItem(c);
 					}

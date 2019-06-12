@@ -256,7 +256,7 @@ namespace NGit.Transport
 					{
 						// The first line (if any) may contain "hidden"
 						// capability values after a NUL byte.
-						foreach (string c in Sharpen.Runtime.Substring(line, nul + 1).Split(" "))
+						foreach (string c in Sharpen.Runtime.Substring(line, nul + 1).RegexSplit(" "))
 						{
 							remoteCapablities.AddItem(c);
 						}
