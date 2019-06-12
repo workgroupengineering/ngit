@@ -13,6 +13,7 @@ $OutputDir = "$RootDir\.output\$Configuration"
 $LogsDir = "$OutputDir\logs"
 $NugetPackageOutputDir = "$OutputDir\nugetpackages"
 $Solution = "$RootDir\ngit.sln"
+$TransferArtifactPath = "$RootDir\.output\Transfer.7z"
 # We probably don't want to publish every single nuget package ever built to our external feed.
 # Let's only publish packages built from the default branch (master) by default.
 $PublishNugetPackages = $env:TEAMCITY_VERSION -and $IsDefaultBranch
@@ -139,8 +140,22 @@ task Compile Init, UpdateVersionInfo, {
 # Synopsis: Execute our unit tests
 task UnitTests {
     @("$RootDir\NGit.Test\bin\$Configuration\net461\NGit.Test.dll", 
-    "$RootDir\NGit.Test\bin\$Configuration\netcoreapp2.1\NGit.Test.dll",
-    "$RootDir\Sharpen.Test\bin\$Configuration\net461\Sharpen.Test.dll",
+    "$RootDir\Sharpen.Test\bin\$Configuration\net461\Sharpen.Test.dll") | Resolve-Path | ForEach-Object {
+        try {
+            if ($env:TEAMCITY_VERSION) {
+                dotnet vstest $_ --testcasefilter:"TestCategory!=Explicit" --logger:teamcity
+            } else {
+                dotnet vstest $_ --testcasefilter:"TestCategory!=Explicit"
+            }
+        }
+        catch {
+            Write-Host "Error while running tests: $_"
+        }
+    }
+}
+
+task UnitTestsCore {
+    @("$RootDir\NGit.Test\bin\$Configuration\netcoreapp2.1\NGit.Test.dll",
     "$RootDir\Sharpen.Test\bin\$Configuration\netcoreapp2.1\Sharpen.Test.dll") | Resolve-Path | ForEach-Object {
         try {
             if ($env:TEAMCITY_VERSION) {
@@ -153,6 +168,47 @@ task UnitTests {
             Write-Host "Error while running tests: $_"
         }
     }
+}
+
+task ExpandTransferArtifact {
+    if (-not (Test-Path $TransferArtifactPath)) {
+        throw "Transfer artifact not found: $TransferArtifactPath"
+    }
+    
+    Write-Host "Expanding the transfer artifact: $TransferArtifactPath"
+    Expand-ZipArchive -Archive $TransferArtifactPath -Destination $RootDir
+}
+
+task CreateTransferArtifact {
+    # Make sure the folder exists for the transfer zip file.
+    $ParentDir = $TransferArtifactPath | Split-Path -Parent
+    $Null = mkdir $ParentDir -Force
+
+     Write-Host $RootDir
+    Write-Host $Configuration
+    # Get the files to be transfered.
+    $Files = Get-FilesForTransferArtifact | ForEach-Object { $_.FullName } | Sort-Object { $_ }
+
+     Write-Host 'Files to be transferred:'
+    $Files | ForEach-Object { Write-Host "  $_" }
+
+     # Create the transfer zip file.
+    Write-Host "Creating $TransferArtifactPath"
+    New-ZipArchive -Files $Files -BasePath $RootDir -OutputFile $TransferArtifactPath
+
+     # And finally publish it.
+    TeamCity-PublishArtifact $TransferArtifactPath
+}
+
+function Get-FilesForTransferArtifact {
+    function Get-FilesInFolder {
+        [CmdletBinding()]
+        param([string] $Folder)
+        Get-ChildItem -Path "$RootDir\$Folder" -File -Recurse
+    }
+
+    Get-FilesInFolder "$RootDir\NGit.Test\bin"
+    Get-FilesInFolder "$RootDir\Sharpen.Test\bin"
 }
 
 # Synopsis: Build the nuget packages.
@@ -186,7 +242,7 @@ task PublishNugetPackages -If($PublishNugetPackages) {
 }
 
 # Synopsis: Build the project.
-task Build Init, Compile, UnitTests, BuildNugetPackages, PublishNugetPackages
+task Build Init, Compile, UnitTests, BuildNugetPackages, PublishNugetPackages, CreateTransferArtifact
 
 # Synopsis: By default, Call the 'Build' task
 task . Build
