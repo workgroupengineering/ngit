@@ -53,16 +53,16 @@ using Sharpen;
 namespace NGit.Api
 {
     [NUnit.Framework.TestFixture(false, false)]
-	[NUnit.Framework.TestFixture(false, true)]
-	[NUnit.Framework.TestFixture(true, false)]
-	[NUnit.Framework.TestFixture(true, true)]
-	public class ApplyCommandTest : RepositoryTestCase
-	{
+    [NUnit.Framework.TestFixture(false, true)]
+    [NUnit.Framework.TestFixture(true, false)]
+    [NUnit.Framework.TestFixture(true, true)]
+    public class ApplyCommandTest : RepositoryTestCase
+    {
         private readonly bool m_UseCrlfPatches;
         private readonly bool m_UseCrlfFiles;
         private PatchApplicationTester m_PatchApplicationTester;
-	    public RawText a => m_PatchApplicationTester.a;
-	    public RawText b => m_PatchApplicationTester.b;
+        public RawText a => m_PatchApplicationTester.a;
+        public RawText b => m_PatchApplicationTester.b;
 
         public ApplyCommandTest(bool useCrlfPatches, bool useCrlfFiles)
         {
@@ -72,87 +72,87 @@ namespace NGit.Api
 
         /// <exception cref="System.Exception"></exception>
         [NUnit.Framework.Test]
-		public virtual void TestAddA1()
-		{
-			ApplyResult result = Init("A1", false, true);
-			NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
-			NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "A1"), result.GetUpdatedFiles
-				()[0]);
-			CheckFile(new FilePath(db.WorkTree, "A1"), b.GetString(0, b.Size(), false));
-		}
+        public virtual void TestAddA1()
+        {
+            ApplyResult result = Init("A1", false, true);
+            NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "A1"), result.GetUpdatedFiles
+                ()[0]);
+            CheckFile(new FilePath(db.WorkTree, "A1"), b.GetString(0, b.Size(), false));
+        }
 
-	    private ApplyResult Init(string name, bool preExists = true, bool postExists = true)
+        private ApplyResult Init(string name, bool preExists = true, bool postExists = true)
         {
             m_PatchApplicationTester = new PatchApplicationTester(db, m_UseCrlfPatches, m_UseCrlfFiles);
             return m_PatchApplicationTester.Init(name, preExists, postExists);
-	    }
+        }
 
-	    [Test]
-		public void TestThatPatchingWhichMakesFileEmptyCanBeApplied()
-		{
-			ApplyResult result = Init("ToEmpty", true, true);
-			NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
-			NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "ToEmpty"), result.GetUpdatedFiles
-				()[0]);
-			CheckFile(new FilePath(db.WorkTree, "ToEmpty"), b.GetString(0, b.Size(), false));
-		}
+        [Test]
+        public void TestThatPatchingWhichMakesFileEmptyCanBeApplied()
+        {
+            ApplyResult result = Init("ToEmpty", true, true);
+            NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "ToEmpty"), result.GetUpdatedFiles
+                ()[0]);
+            CheckFile(new FilePath(db.WorkTree, "ToEmpty"), b.GetString(0, b.Size(), false));
+        }
 
-	    [Test, Description("The files in this test should start with the UTF-8 byte order mark (EF BB BF in hex). The patch should contain the BOM too.")]
-		public void TestThatPatchWhichHasUtf8ByteOrderMarkInContextCanBeApplied()
-		{
-			ApplyResult result = Init("FileStartingWithUtf8Bom", true, true);
-			Assert.AreEqual(1, result.GetUpdatedFiles().Count);
-			Assert.AreEqual(new FilePath(db.WorkTree, "FileStartingWithUtf8Bom"), result.GetUpdatedFiles()[0]);
-			Assert.That(
-				File.ReadAllBytes(new FilePath(db.WorkTree, "FileStartingWithUtf8Bom")),
-				Is.EqualTo(Encoding.UTF8.GetBytes(b.GetString(0, b.Size(), false))));
-		}
+        [Test, Description("The files in this test should start with the UTF-8 byte order mark (EF BB BF in hex). The patch should contain the BOM too.")]
+        public void TestThatPatchWhichHasUtf8ByteOrderMarkInContextCanBeApplied()
+        {
+            ApplyResult result = Init("FileStartingWithUtf8Bom", true, true);
+            Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            Assert.AreEqual(new FilePath(db.WorkTree, "FileStartingWithUtf8Bom"), result.GetUpdatedFiles()[0]);
+            Assert.That(
+                File.ReadAllBytes(new FilePath(db.WorkTree, "FileStartingWithUtf8Bom")),
+                Is.EqualTo(Encoding.UTF8.GetBytes(b.GetString(0, b.Size(), false))));
+        }
 
-	    /// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestAddA2()
-		{
-			ApplyResult result = Init("A2", false, true);
-			NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
-			NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "A2"), result.GetUpdatedFiles
-				()[0]);
-			CheckFile(new FilePath(db.WorkTree, "A2"), b.GetString(0, b.Size(), false));
-		}
+        /// <exception cref="System.Exception"></exception>
+        [NUnit.Framework.Test]
+        public virtual void TestAddA2()
+        {
+            ApplyResult result = Init("A2", false, true);
+            NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "A2"), result.GetUpdatedFiles
+                ()[0]);
+            CheckFile(new FilePath(db.WorkTree, "A2"), b.GetString(0, b.Size(), false));
+        }
 
-	    /// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestAddA1Sub()
-		{
-			ApplyResult result = Init("A1_sub", false, false);
-			NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
-			NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "sub/A1"), result.GetUpdatedFiles
-				()[0]);
-		}
+        /// <exception cref="System.Exception"></exception>
+        [NUnit.Framework.Test]
+        public virtual void TestAddA1Sub()
+        {
+            ApplyResult result = Init("A1_sub", false, false);
+            NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "sub/A1"), result.GetUpdatedFiles
+                ()[0]);
+        }
 
-	    /// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestDeleteD()
-		{
-			ApplyResult result = Init("D", true, false);
-			NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
-			NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "D"), result.GetUpdatedFiles
-				()[0]);
-			NUnit.Framework.Assert.IsFalse(new FilePath(db.WorkTree, "D").Exists());
-		}
+        /// <exception cref="System.Exception"></exception>
+        [NUnit.Framework.Test]
+        public virtual void TestDeleteD()
+        {
+            ApplyResult result = Init("D", true, false);
+            NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "D"), result.GetUpdatedFiles
+                ()[0]);
+            NUnit.Framework.Assert.IsFalse(new FilePath(db.WorkTree, "D").Exists());
+        }
 
         /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void TestFailureF1()
-		{
+        {
             Assert.Throws<PatchFormatException>(() => Init("F1", true, false));
-		}
+        }
 
-	    /// <exception cref="System.Exception"></exception>
-	    [Test]
-		public virtual void TestFailureF2()
-		{
+        /// <exception cref="System.Exception"></exception>
+        [Test]
+        public virtual void TestFailureF2()
+        {
             Assert.Throws<PatchApplyException>(() => Init("F2", true, false));
-		}
+        }
 
         /// <exception cref="System.Exception"></exception>
         [Test]
@@ -163,46 +163,46 @@ namespace NGit.Api
 
         /// <exception cref="System.Exception"></exception>
         [NUnit.Framework.Test]
-		public virtual void TestModifyE()
-		{
-			ApplyResult result = Init("E");
-			NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
-			NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "E"), result.GetUpdatedFiles
-				()[0]);
-			CheckFile(new FilePath(db.WorkTree, "E"), b.GetString(0, b.Size(), false));
-		}
+        public virtual void TestModifyE()
+        {
+            ApplyResult result = Init("E");
+            NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "E"), result.GetUpdatedFiles
+                ()[0]);
+            CheckFile(new FilePath(db.WorkTree, "E"), b.GetString(0, b.Size(), false));
+        }
 
-	    /// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestModifyX()
-		{
-			ApplyResult result = Init("X");
-			NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
-			NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "X"), result.GetUpdatedFiles
-				()[0]);
-			CheckFile(new FilePath(db.WorkTree, "X"), b.GetString(0, b.Size(), false));
-		}
-
-	    /// <exception cref="System.Exception"></exception>
+        /// <exception cref="System.Exception"></exception>
         [NUnit.Framework.Test]
-		public virtual void TestModifyY()
-		{
-			ApplyResult result = Init("Y");
-			NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
-			NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "Y"), result.GetUpdatedFiles
-				()[0]);
-			CheckFile(new FilePath(db.WorkTree, "Y"), b.GetString(0, b.Size(), false));
-		}
+        public virtual void TestModifyX()
+        {
+            ApplyResult result = Init("X");
+            NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "X"), result.GetUpdatedFiles
+                ()[0]);
+            CheckFile(new FilePath(db.WorkTree, "X"), b.GetString(0, b.Size(), false));
+        }
 
-	    /// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestModifyZ()
-		{
-			ApplyResult result = Init("Z");
-			NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
-			NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "Z"), result.GetUpdatedFiles
-				()[0]);
-			CheckFile(new FilePath(db.WorkTree, "Z"), b.GetString(0, b.Size(), false));
-		}
-	}
+        /// <exception cref="System.Exception"></exception>
+        [NUnit.Framework.Test]
+        public virtual void TestModifyY()
+        {
+            ApplyResult result = Init("Y");
+            NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "Y"), result.GetUpdatedFiles
+                ()[0]);
+            CheckFile(new FilePath(db.WorkTree, "Y"), b.GetString(0, b.Size(), false));
+        }
+
+        /// <exception cref="System.Exception"></exception>
+        [NUnit.Framework.Test]
+        public virtual void TestModifyZ()
+        {
+            ApplyResult result = Init("Z");
+            NUnit.Framework.Assert.AreEqual(1, result.GetUpdatedFiles().Count);
+            NUnit.Framework.Assert.AreEqual(new FilePath(db.WorkTree, "Z"), result.GetUpdatedFiles
+                ()[0]);
+            CheckFile(new FilePath(db.WorkTree, "Z"), b.GetString(0, b.Size(), false));
+        }
+    }
 }
