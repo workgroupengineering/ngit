@@ -141,17 +141,17 @@ namespace NGit.Api
 		}
 
         /// <exception cref="System.Exception"></exception>
-        [Test, ExpectedException(typeof(PatchFormatException))]
+        [Test]
         public virtual void TestFailureF1()
 		{
-			Init("F1", true, false);
+            Assert.Throws<PatchFormatException>(() => Init("F1", true, false));
 		}
 
 	    /// <exception cref="System.Exception"></exception>
-	    [Test, ExpectedException(typeof(PatchApplyException))]
+	    [Test]
 		public virtual void TestFailureF2()
 		{
-			Init("F2", true, false);
+            Assert.Throws<PatchApplyException>(() => Init("F2", true, false));
 		}
 
         /// <exception cref="System.Exception"></exception>
