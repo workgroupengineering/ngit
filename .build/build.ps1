@@ -207,8 +207,8 @@ function Get-FilesForTransferArtifact {
         Get-ChildItem -Path "$RootDir\$Folder" -File -Recurse
     }
 
-    Get-FilesInFolder "$RootDir\NGit.Test\bin"
-    Get-FilesInFolder "$RootDir\Sharpen.Test\bin"
+    Get-FilesInFolder "NGit.Test\bin"
+    Get-FilesInFolder "Sharpen.Test\bin"
 }
 
 # Synopsis: Build the nuget packages.
