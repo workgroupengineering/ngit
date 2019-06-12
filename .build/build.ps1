@@ -140,12 +140,11 @@ task Compile Init, UpdateVersionInfo, {
 task UnitTests {
     @("$RootDir\NGit.Test\bin\$Configuration\net461\NGit.Test.dll", "$RootDir\Sharpen.Test\bin\$Configuration\net461\Sharpen.Test.dll") | Resolve-Path | ForEach-Object {
         try {
-            Invoke-NUnitForAssembly `
-                -AssemblyPath $_ `
-                -NUnitVersion "2.6.4" `
-                -FrameworkVersion "net-4.0" `
-                -EnableCodeCoverage $false `
-                -ExcludedCategories @('Explicit') `
+            if ($env:TEAMCITY_VERSION) {
+                dotnet vstest $_ --testcasefilter:"TestCategory!=Explicit" --logger:teamcity
+            } else {
+                dotnet vstest $_ --testcasefilter:"TestCategory!=Explicit"
+            }
         }
         catch {
             Write-Host "Error while running tests: $_"
