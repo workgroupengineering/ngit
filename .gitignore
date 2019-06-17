@@ -18,3 +18,4 @@ packages/
 .paket/
 paket.lock
 .output/**/*.*
+.idea
