@@ -43,6 +43,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using NGit;
 using NGit.Api;
 using NGit.Api.Errors;
@@ -355,7 +356,9 @@ namespace NGit.Api
 			entry = cache.GetEntry("Test.txt");
 			NUnit.Framework.Assert.IsNotNull(entry);
 			NUnit.Framework.Assert.AreEqual(size, entry.Length);
-			NUnit.Framework.Assert.AreEqual(mTime, entry.LastModified);
+			
+			var expectedValue = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? mTime - mTime % 1000 : mTime;
+			NUnit.Framework.Assert.AreEqual(expectedValue, entry.LastModified);
 		}
 	}
 }
