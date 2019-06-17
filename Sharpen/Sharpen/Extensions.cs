@@ -565,6 +565,10 @@ namespace Sharpen
 
         public static long ToMillisecondsSinceEpoch (this DateTimeOffset dateTimeOffset)
         {
+            Console.WriteLine($"dateTimeOffset.Ticks is {dateTimeOffset.Ticks}");
+            Console.WriteLine($"dateTimeOffset.Offset.Ticks is {dateTimeOffset.Offset.Ticks}");
+            Console.WriteLine($"EPOCH_TICKS is {EPOCH_TICKS}");
+            Console.WriteLine($"TimeSpan.TicksPerMillisecond is {TimeSpan.TicksPerMillisecond}");
             return (((dateTimeOffset.Ticks - dateTimeOffset.Offset.Ticks) - EPOCH_TICKS) / TimeSpan.TicksPerMillisecond);
         }
 
