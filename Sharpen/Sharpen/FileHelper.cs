@@ -125,12 +125,10 @@ namespace Sharpen
             try {
                 DateTime utcDateTime = Extensions.MillisToDateTimeOffset(milis, 0L).UtcDateTime;
                 if (IsFile(path)) {
-                    var info2 = new FileInfo(path);
-                    info2.LastWriteTimeUtc = utcDateTime;
+                    File.SetLastWriteTimeUtc(path, utcDateTime);
                     return true;
                 } else if (IsDirectory(path)) {
-                    var info = new DirectoryInfo(path);
-                    info.LastWriteTimeUtc = utcDateTime;
+                    Directory.SetLastWriteTimeUtc(path, utcDateTime);
                     return true;
                 }
             } catch  {
