@@ -109,14 +109,7 @@ namespace NGit.Util
 			}
 			else
 			{
-				if (FS_POSIX_Java6.HasExecute())
-				{
-					return new FS_POSIX_Java6();
-				}
-				else
-				{
-					return new FS_POSIX_Java5();
-				}
+				return new FS_POSIX_Java5();
 			}
 		}
 
