@@ -192,11 +192,11 @@ function Get-FilesForTransferArtifact {
     function Get-FilesInFolder {
         [CmdletBinding()]
         param([string] $Folder)
-        Get-ChildItem -Path "$RootDir\$Folder" -File -Recurse
+        Get-ChildItem -Path $Folder -File -Recurse
     }
 
-    Get-FilesInFolder "NGit.Test\bin"
-    Get-FilesInFolder "Sharpen.Test\bin"
+    Get-FilesInFolder "$RootDir\NGit.Test\bin"
+    Get-FilesInFolder "$RootDir\Sharpen.Test\bin"
     Get-FilesInFolder $NugetPackageOutputDir
 }
 
