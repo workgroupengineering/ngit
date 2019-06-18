@@ -197,6 +197,7 @@ function Get-FilesForTransferArtifact {
 
     Get-FilesInFolder "NGit.Test\bin"
     Get-FilesInFolder "Sharpen.Test\bin"
+    Get-FilesInFolder $NugetPackageOutputDir
 }
 
 # Synopsis: Build the nuget packages.
@@ -230,7 +231,7 @@ task PublishNugetPackages -If($PublishNugetPackages) {
 }
 
 # Synopsis: Build the project.
-task Build Init, Compile, UnitTests, BuildNugetPackages, PublishNugetPackages, CreateTransferArtifact
+task Build Init, Compile, UnitTests, BuildNugetPackages, CreateTransferArtifact
 
 # Synopsis: By default, Call the 'Build' task
 task . Build
