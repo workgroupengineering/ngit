@@ -172,19 +172,19 @@ task CreateTransferArtifact {
     $ParentDir = $TransferArtifactPath | Split-Path -Parent
     $Null = mkdir $ParentDir -Force
 
-     Write-Host $RootDir
+    Write-Host $RootDir
     Write-Host $Configuration
     # Get the files to be transfered.
     $Files = Get-FilesForTransferArtifact | ForEach-Object { $_.FullName } | Sort-Object { $_ }
 
-     Write-Host 'Files to be transferred:'
+    Write-Host 'Files to be transferred:'
     $Files | ForEach-Object { Write-Host "  $_" }
 
-     # Create the transfer zip file.
+    # Create the transfer zip file.
     Write-Host "Creating $TransferArtifactPath"
     New-ZipArchive -Files $Files -BasePath $RootDir -OutputFile $TransferArtifactPath
 
-     # And finally publish it.
+    # And finally publish it.
     TeamCity-PublishArtifact $TransferArtifactPath
 }
 
