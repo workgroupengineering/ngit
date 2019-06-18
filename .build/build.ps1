@@ -14,9 +14,7 @@ $LogsDir = "$OutputDir\logs"
 $NugetPackageOutputDir = "$OutputDir\nugetpackages"
 $Solution = "$RootDir\ngit.sln"
 $TransferArtifactPath = "$RootDir\.output\Transfer.7z"
-# We probably don't want to publish every single nuget package ever built to our external feed.
-# Let's only publish packages built from the default branch (master) by default.
-$PublishNugetPackages = $env:TEAMCITY_VERSION -and $IsDefaultBranch
+$PublishNugetPackages = $env:TEAMCITY_VERSION
 $NugetExe = "$PSScriptRoot\packages\Nuget.CommandLine\tools\Nuget.exe" | Resolve-Path
 
 # Installer building routines are stored in a separate file
