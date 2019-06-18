@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using NGit.Diff;
 using NUnit.Framework;
 using Sharpen;
@@ -19,6 +20,10 @@ namespace NGit.Api
         [Test]
         public void PatchesContainingModifiedFilesWithDifferentFileNameCasingCanBeApplied()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Assert.Ignore("This doesn't make sense on a case-sensitive file system.");
+            }
             ApplyResult result = Init();
             NUnit.Framework.Assert.AreEqual(2, result.GetUpdatedFiles().Count);
             CheckFile(new FilePath(db.WorkTree, "FILECASING"), b.GetString(0, b.Size(), false));
