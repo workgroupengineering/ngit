@@ -68,7 +68,7 @@ namespace NGit.Storage.File
 				string line;
 				while ((line = br.ReadLine()) != null)
 				{
-					string[] parts = line.Split(" {1,}");
+					string[] parts = line.RegexSplit(" {1,}");
 					WindowCacheGetTest.TestObject o = new WindowCacheGetTest.TestObject(this);
 					o.id = ObjectId.FromString(parts[0]);
 					o.SetType(parts[1]);

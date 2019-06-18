@@ -61,21 +61,6 @@ namespace NGit.Util
 			return new NGit.Util.FS_POSIX_Java5(this);
 		}
 
-		public override bool SupportsExecute()
-		{
-			return false;
-		}
-
-		public override bool CanExecute(FilePath f)
-		{
-			return false;
-		}
-
-		public override bool SetExecute(FilePath f, bool canExec)
-		{
-			return false;
-		}
-
 		public override bool RetryFailedLockFileCommit()
 		{
 			return false;

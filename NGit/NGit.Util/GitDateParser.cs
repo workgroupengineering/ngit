@@ -259,7 +259,7 @@ namespace NGit.Util
 				return cal.GetTime();
 			}
 			// parse constructs like "3 days ago", "5.week.2.day.ago"
-			string[] parts = dateStr.Split("\\.| ");
+			string[] parts = dateStr.RegexSplit("\\.| ");
 			int partsLength = parts.Length;
 			// check we have an odd number of parts (at least 3) and that the last
 			// part is "ago"

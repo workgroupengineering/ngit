@@ -198,36 +198,6 @@ namespace NGit.Api
 			}
 		}
 
-		// expected
-		/// <exception cref="System.IO.IOException"></exception>
-		/// <exception cref="NGit.Api.Errors.JGitInternalException"></exception>
-		/// <exception cref="NGit.Api.Errors.GitAPIException"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestMergeEmptyBranches()
-		{
-			if (!FS.DETECTED.SupportsExecute())
-				return;
-
-			Git git = new Git(db);
-			git.Commit().SetMessage("initial commit").Call();
-			RefUpdate r = db.UpdateRef("refs/heads/side");
-			r.SetNewObjectId(db.Resolve(Constants.HEAD));
-			NUnit.Framework.Assert.AreEqual(r.ForceUpdate(), RefUpdate.Result.NEW);
-			RevCommit second = git.Commit().SetMessage("second commit").SetCommitter(committer
-				).Call();
-			db.UpdateRef(Constants.HEAD).Link("refs/heads/side");
-			RevCommit firstSide = git.Commit().SetMessage("first side commit").SetAuthor(author
-				).Call();
-			Write(new FilePath(db.Directory, Constants.MERGE_HEAD), ObjectId.ToString(db.Resolve
-				("refs/heads/master")));
-			Write(new FilePath(db.Directory, Constants.MERGE_MSG), "merging");
-			RevCommit commit = git.Commit().Call();
-			RevCommit[] parents = commit.Parents;
-			NUnit.Framework.Assert.AreEqual(parents[0], firstSide);
-			NUnit.Framework.Assert.AreEqual(parents[1], second);
-			NUnit.Framework.Assert.AreEqual(2, parents.Length);
-		}
-
 		/// <exception cref="System.IO.IOException"></exception>
 		/// <exception cref="NGit.Api.Errors.JGitInternalException"></exception>
 		/// <exception cref="NGit.Api.Errors.GitAPIException"></exception>
@@ -256,38 +226,6 @@ namespace NGit.Api
 			tw = TreeWalk.ForPath(db, "a.txt", commit.Tree);
 			NUnit.Framework.Assert.AreEqual("db00fd65b218578127ea51f3dffac701f12f486a", tw.GetObjectId
 				(0).GetName());
-		}
-
-		/// <exception cref="System.IO.IOException"></exception>
-		/// <exception cref="NGit.Api.Errors.GitAPIException"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestModeChange()
-		{
-			if (Runtime.GetProperty("os.name").StartsWith("Windows"))
-			{
-				return;
-			}
-			// SKIP
-			Git git = new Git(db);
-			// create file
-			FilePath file = new FilePath(db.WorkTree, "a.txt");
-			FileUtils.CreateNewFile(file);
-			PrintWriter writer = new PrintWriter(file);
-			writer.Write("content1");
-			writer.Close();
-			// First commit - a.txt file
-			git.Add().AddFilepattern("a.txt").Call();
-			git.Commit().SetMessage("commit1").SetCommitter(committer).Call();
-			// pure mode change should be committable
-			FS fs = db.FileSystem;
-			fs.SetExecute(file, true);
-			git.Add().AddFilepattern("a.txt").Call();
-			git.Commit().SetMessage("mode change").SetCommitter(committer).Call();
-			// pure mode change should be committable with -o option
-			fs.SetExecute(file, false);
-			git.Add().AddFilepattern("a.txt").Call();
-			git.Commit().SetMessage("mode change").SetCommitter(committer).SetOnly("a.txt").Call
-				();
 		}
 
 		/// <exception cref="NGit.Api.Errors.GitAPIException"></exception>

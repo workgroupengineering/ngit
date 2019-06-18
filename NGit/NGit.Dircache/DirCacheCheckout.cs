@@ -1147,24 +1147,7 @@ namespace NGit.Dircache
 			{
 				channel.Close();
 			}
-			FS fs = repo.FileSystem;
-			if (opt.IsFileMode() && fs.SupportsExecute())
-			{
-				if (FileMode.EXECUTABLE_FILE.Equals(entry.RawMode))
-				{
-					if (!fs.CanExecute(tmpFile))
-					{
-						fs.SetExecute(tmpFile, true);
-					}
-				}
-				else
-				{
-					if (fs.CanExecute(tmpFile))
-					{
-						fs.SetExecute(tmpFile, false);
-					}
-				}
-			}
+
 			if (!tmpFile.RenameTo(f))
 			{
 				// tried to rename which failed. Let' delete the target file and try

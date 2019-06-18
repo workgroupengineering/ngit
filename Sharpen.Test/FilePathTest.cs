@@ -23,7 +23,9 @@ namespace Sharpen.Test
 
                 lastWriteTime += (long)TimeSpan.FromHours (1).TotalMilliseconds;
                 temp.SetLastModified (lastWriteTime);
-                Assert.AreEqual (lastWriteTime, temp.LastModified (), "#2");
+
+                var expectedValue = RunningOnLinux ? lastWriteTime - lastWriteTime % 1000 : lastWriteTime;
+                Assert.AreEqual (expectedValue, temp.LastModified (), "#2");
             } finally {
                 Directory.Delete (temp);
             }
@@ -39,7 +41,9 @@ namespace Sharpen.Test
                 
                 lastWriteTime += (long)TimeSpan.FromHours (1).TotalMilliseconds;
                 temp.SetLastModified (lastWriteTime);
-                Assert.AreEqual (lastWriteTime, temp.LastModified (), "#2");
+                
+                var expectedValue = RunningOnLinux ? lastWriteTime - lastWriteTime % 1000 : lastWriteTime;
+                Assert.AreEqual (expectedValue, temp.LastModified (), "#2");
             } finally {
                 File.Delete (temp);
             }

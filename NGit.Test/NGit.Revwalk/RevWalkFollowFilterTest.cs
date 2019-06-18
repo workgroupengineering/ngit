@@ -151,7 +151,7 @@ namespace NGit.Revwalk
 			{
 				DiffEntry diff = diffCollector.diffs[i];
 				NUnit.Framework.Assert.IsNotNull(diff);
-				string[] split = expectedRenames[i].Split("->");
+				string[] split = expectedRenames[i].RegexSplit("->");
 				NUnit.Framework.Assert.IsNotNull(split);
 				NUnit.Framework.Assert.AreEqual(2, split.Length);
 				string src = split[0];

@@ -42,6 +42,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System;
+using System.Runtime.InteropServices;
 using NGit;
 using Sharpen;
 
@@ -53,8 +54,11 @@ namespace NGit
 		[NUnit.Framework.Test]
 		public virtual void Test001_NewIdent()
 		{
+			var timeZoneId = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+				? "Eastern Standard Time"
+				: "EST";
 			PersonIdent p = new PersonIdent("A U Thor", "author@example.com", Sharpen.Extensions.CreateDate
-				(1142878501000L), Sharpen.Extensions.GetTimeZone("Eastern Standard Time"));
+				(1142878501000L), Sharpen.Extensions.GetTimeZone(timeZoneId));
 			NUnit.Framework.Assert.AreEqual("A U Thor", p.GetName());
 			NUnit.Framework.Assert.AreEqual("author@example.com", p.GetEmailAddress());
 			NUnit.Framework.Assert.AreEqual(1142878501000L, p.GetWhen().GetTime());

@@ -84,7 +84,7 @@ namespace NGit.Transport
 				int nul = line.IndexOf('\0');
 				if (nul >= 0)
 				{
-					foreach (string c in Sharpen.Runtime.Substring(line, nul + 1).Split(" "))
+					foreach (string c in Sharpen.Runtime.Substring(line, nul + 1).RegexSplit(" "))
 					{
 						caps.AddItem(c);
 					}

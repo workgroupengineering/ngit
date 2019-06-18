@@ -796,11 +796,11 @@ namespace NGit.Transport
 			string[] elements;
 			if ("file".Equals(scheme) || LOCAL_FILE.Matcher(s).Matches())
 			{
-				elements = s.Split("[\\" + FilePath.separatorChar + "/]");
+				elements = s.RegexSplit("[\\" + FilePath.separatorChar + "/]");
 			}
 			else
 			{
-				elements = s.Split("/");
+				elements = s.RegexSplit("/");
 			}
 			if (elements.Length == 0)
 			{

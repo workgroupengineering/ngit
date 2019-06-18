@@ -495,7 +495,7 @@ namespace NGit
 				string val = sr.Getenv(Constants.GIT_ALTERNATE_OBJECT_DIRECTORIES_KEY);
 				if (val != null)
 				{
-					foreach (string path in val.Split(FilePath.pathSeparator))
+					foreach (string path in val.RegexSplit(FilePath.pathSeparator))
 					{
 						AddAlternateObjectDirectory(new FilePath(path));
 					}
@@ -522,7 +522,7 @@ namespace NGit
 				string val = sr.Getenv(Constants.GIT_CEILING_DIRECTORIES_KEY);
 				if (val != null)
 				{
-					foreach (string path in val.Split(FilePath.pathSeparator))
+					foreach (string path in val.RegexSplit(FilePath.pathSeparator))
 					{
 						AddCeilingDirectory(new FilePath(path));
 					}

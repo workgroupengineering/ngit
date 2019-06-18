@@ -522,51 +522,10 @@ namespace NGit.Api
 				(CONTENT | ASSUME_UNCHANGED));
 		}
 
-		/// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestExecutableRetention()
-		{
-			StoredConfig config = ((FileBasedConfig)db.GetConfig());
-			config.SetBoolean(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_FILEMODE
-				, true);
-			config.Save();
-			FS executableFs = new _FS_605();
-			Git git = Git.Open(db.Directory, executableFs);
-			string path = "a.txt";
-			WriteTrashFile(path, "content");
-			git.Add().AddFilepattern(path).Call();
-			RevCommit commit1 = git.Commit().SetMessage("commit").Call();
-			TreeWalk walk = TreeWalk.ForPath(db, path, commit1.Tree);
-			NUnit.Framework.Assert.IsNotNull(walk);
-			NUnit.Framework.Assert.AreEqual(FileMode.EXECUTABLE_FILE, walk.GetFileMode(0));
-			FS nonExecutableFs = new _FS_650();
-			config = ((FileBasedConfig)db.GetConfig());
-			config.SetBoolean(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_FILEMODE
-				, false);
-			config.Save();
-			Git git2 = Git.Open(db.Directory, nonExecutableFs);
-			WriteTrashFile(path, "content2");
-			git2.Add().AddFilepattern(path).Call();
-			RevCommit commit2 = git2.Commit().SetMessage("commit2").Call();
-			walk = TreeWalk.ForPath(db, path, commit2.Tree);
-			NUnit.Framework.Assert.IsNotNull(walk);
-			NUnit.Framework.Assert.AreEqual(FileMode.EXECUTABLE_FILE, walk.GetFileMode(0));
-		}
-
 		private sealed class _FS_605 : FS
 		{
 			public _FS_605()
 			{
-			}
-
-			public override bool SupportsExecute()
-			{
-				return true;
-			}
-
-			public override bool SetExecute(FilePath f, bool canExec)
-			{
-				return true;
 			}
 
 			public override ProcessStartInfo RunInShell(string cmd, string[] args)
@@ -589,10 +548,6 @@ namespace NGit.Api
 				return null;
 			}
 
-			public override bool CanExecute(FilePath f)
-			{
-				return true;
-			}
 
 			public override bool IsCaseSensitive()
 			{
@@ -606,16 +561,6 @@ namespace NGit.Api
 			{
 			}
 
-			public override bool SupportsExecute()
-			{
-				return false;
-			}
-
-			public override bool SetExecute(FilePath f, bool canExec)
-			{
-				return false;
-			}
-
 			public override ProcessStartInfo RunInShell(string cmd, string[] args)
 			{
 				return null;
@@ -634,11 +579,6 @@ namespace NGit.Api
 			protected internal override FilePath DiscoverGitPrefix()
 			{
 				return null;
-			}
-
-			public override bool CanExecute(FilePath f)
-			{
-				return false;
 			}
 
 			public override bool IsCaseSensitive()

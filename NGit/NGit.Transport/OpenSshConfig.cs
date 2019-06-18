@@ -221,13 +221,13 @@ namespace NGit.Transport
 				{
 					continue;
 				}
-				string[] parts = line.Split("[ \t]*[= \t]", 2);
+				string[] parts = line.RegexSplit("[ \t]*[= \t]", 2);
 				string keyword = parts[0].Trim();
 				string argValue = parts[1].Trim();
 				if (StringUtils.EqualsIgnoreCase("Host", keyword))
 				{
 					current.Clear();
-					foreach (string pattern in argValue.Split("[ \t]"))
+					foreach (string pattern in argValue.RegexSplit("[ \t]"))
 					{
 						string name = Dequote(pattern);
 						OpenSshConfig.Host c = m.Get(name);

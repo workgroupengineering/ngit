@@ -954,76 +954,6 @@ namespace NGit.Api
 
 		/// <exception cref="System.Exception"></exception>
 		[NUnit.Framework.Test]
-		public virtual void TestFileModeMerge()
-		{
-			if (!FS.DETECTED.SupportsExecute())
-			{
-				return;
-			}
-			// Only Java6
-			Git git = new Git(db);
-			WriteTrashFile("mergeableMode", "a");
-			SetExecutable(git, "mergeableMode", false);
-			WriteTrashFile("conflictingModeWithBase", "a");
-			SetExecutable(git, "conflictingModeWithBase", false);
-			RevCommit initialCommit = AddAllAndCommit(git);
-			// switch branch
-			CreateBranch(initialCommit, "refs/heads/side");
-			CheckoutBranch("refs/heads/side");
-			SetExecutable(git, "mergeableMode", true);
-			WriteTrashFile("conflictingModeNoBase", "b");
-			SetExecutable(git, "conflictingModeNoBase", true);
-			RevCommit sideCommit = AddAllAndCommit(git);
-			// switch branch
-			CreateBranch(initialCommit, "refs/heads/side2");
-			CheckoutBranch("refs/heads/side2");
-			SetExecutable(git, "mergeableMode", false);
-			NUnit.Framework.Assert.IsFalse(new FilePath(git.GetRepository().WorkTree, "conflictingModeNoBase"
-				).Exists());
-			WriteTrashFile("conflictingModeNoBase", "b");
-			SetExecutable(git, "conflictingModeNoBase", false);
-			AddAllAndCommit(git);
-			// merge
-			MergeCommandResult result = git.Merge().Include(sideCommit.Id).SetStrategy(MergeStrategy
-				.RESOLVE).Call();
-			NUnit.Framework.Assert.AreEqual(MergeStatus.CONFLICTING, result.GetMergeStatus());
-			NUnit.Framework.Assert.IsTrue(CanExecute(git, "mergeableMode"));
-			NUnit.Framework.Assert.IsFalse(CanExecute(git, "conflictingModeNoBase"));
-		}
-
-		/// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestFileModeMergeWithDirtyWorkTree()
-		{
-			if (!FS.DETECTED.SupportsExecute())
-			{
-				return;
-			}
-			// Only Java6 (or set x bit in index)
-			Git git = new Git(db);
-			WriteTrashFile("mergeableButDirty", "a");
-			SetExecutable(git, "mergeableButDirty", false);
-			RevCommit initialCommit = AddAllAndCommit(git);
-			// switch branch
-			CreateBranch(initialCommit, "refs/heads/side");
-			CheckoutBranch("refs/heads/side");
-			SetExecutable(git, "mergeableButDirty", true);
-			RevCommit sideCommit = AddAllAndCommit(git);
-			// switch branch
-			CreateBranch(initialCommit, "refs/heads/side2");
-			CheckoutBranch("refs/heads/side2");
-			SetExecutable(git, "mergeableButDirty", false);
-			AddAllAndCommit(git);
-			WriteTrashFile("mergeableButDirty", "b");
-			// merge
-			MergeCommandResult result = git.Merge().Include(sideCommit.Id).SetStrategy(MergeStrategy
-				.RESOLVE).Call();
-			NUnit.Framework.Assert.AreEqual(MergeStatus.FAILED, result.GetMergeStatus());
-			NUnit.Framework.Assert.IsFalse(CanExecute(git, "mergeableButDirty"));
-		}
-
-		/// <exception cref="System.Exception"></exception>
-		[NUnit.Framework.Test]
 		public virtual void TestSquashFastForward()
 		{
 			Git git = new Git(db);
@@ -1150,18 +1080,7 @@ namespace NGit.Api
 				());
 		}
 
-		private void SetExecutable(Git git, string path, bool executable)
-		{
-			FS.DETECTED.SetExecute(new FilePath(git.GetRepository().WorkTree, path), executable
-				);
-		}
-
-		private bool CanExecute(Git git, string path)
-		{
-			return FS.DETECTED.CanExecute(new FilePath(git.GetRepository().WorkTree, path));
-		}
-
-		/// <exception cref="System.Exception"></exception>
+        /// <exception cref="System.Exception"></exception>
 		private RevCommit AddAllAndCommit(Git git)
 		{
 			git.Add().AddFilepattern(".").Call();

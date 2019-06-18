@@ -271,7 +271,7 @@ namespace NGit.Api
 				if (doConfigure)
 				{
 					StoredConfig config = repo.GetConfig();
-					string[] tokens = baseBranch.Split("/", 4);
+					string[] tokens = baseBranch.RegexSplit("/", 4);
 					bool isRemote = tokens[1].Equals("remotes");
 					if (isRemote)
 					{
