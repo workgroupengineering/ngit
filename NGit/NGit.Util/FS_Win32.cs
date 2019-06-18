@@ -64,20 +64,6 @@ namespace NGit.Util
 			return new NGit.Util.FS_Win32(this);
 		}
 
-		public override bool SupportsExecute()
-		{
-			return false;
-		}
-
-		public override bool CanExecute(FilePath f)
-		{
-			return false;
-		}
-
-		public override bool SetExecute(FilePath f, bool canExec)
-		{
-			return false;
-		}
 
 		public override bool IsCaseSensitive()
 		{

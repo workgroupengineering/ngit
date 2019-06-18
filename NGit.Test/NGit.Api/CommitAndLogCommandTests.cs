@@ -198,36 +198,6 @@ namespace NGit.Api
 			}
 		}
 
-		// expected
-		/// <exception cref="System.IO.IOException"></exception>
-		/// <exception cref="NGit.Api.Errors.JGitInternalException"></exception>
-		/// <exception cref="NGit.Api.Errors.GitAPIException"></exception>
-		[NUnit.Framework.Test]
-		public virtual void TestMergeEmptyBranches()
-		{
-			if (!FS.DETECTED.SupportsExecute())
-				return;
-
-			Git git = new Git(db);
-			git.Commit().SetMessage("initial commit").Call();
-			RefUpdate r = db.UpdateRef("refs/heads/side");
-			r.SetNewObjectId(db.Resolve(Constants.HEAD));
-			NUnit.Framework.Assert.AreEqual(r.ForceUpdate(), RefUpdate.Result.NEW);
-			RevCommit second = git.Commit().SetMessage("second commit").SetCommitter(committer
-				).Call();
-			db.UpdateRef(Constants.HEAD).Link("refs/heads/side");
-			RevCommit firstSide = git.Commit().SetMessage("first side commit").SetAuthor(author
-				).Call();
-			Write(new FilePath(db.Directory, Constants.MERGE_HEAD), ObjectId.ToString(db.Resolve
-				("refs/heads/master")));
-			Write(new FilePath(db.Directory, Constants.MERGE_MSG), "merging");
-			RevCommit commit = git.Commit().Call();
-			RevCommit[] parents = commit.Parents;
-			NUnit.Framework.Assert.AreEqual(parents[0], firstSide);
-			NUnit.Framework.Assert.AreEqual(parents[1], second);
-			NUnit.Framework.Assert.AreEqual(2, parents.Length);
-		}
-
 		/// <exception cref="System.IO.IOException"></exception>
 		/// <exception cref="NGit.Api.Errors.JGitInternalException"></exception>
 		/// <exception cref="NGit.Api.Errors.GitAPIException"></exception>

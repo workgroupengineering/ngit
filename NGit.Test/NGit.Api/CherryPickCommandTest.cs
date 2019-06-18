@@ -184,7 +184,6 @@ namespace NGit.Api
 			NUnit.Framework.Assert.IsTrue(cache.Commit());
 			cache.Unlock();
 			NUnit.Framework.Assert.IsNotNull(git.Commit().SetMessage("commit3").Call());
-			db.FileSystem.SetExecute(file, false);
 			git.GetRepository().GetConfig().SetBoolean(ConfigConstants.CONFIG_CORE_SECTION, null
 				, ConfigConstants.CONFIG_KEY_FILEMODE, false);
 			CherryPickResult result = git.CherryPick().Include(commit2).Call();

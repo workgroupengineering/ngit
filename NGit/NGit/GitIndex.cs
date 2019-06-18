@@ -376,17 +376,16 @@ namespace NGit
 
 		private bool File_canExecute(FilePath f)
 		{
-			return db.FileSystem.CanExecute(f);
+			return false;
 		}
 
-		private bool File_setExecute(FilePath f, bool value)
-		{
-			return db.FileSystem.SetExecute(f, value);
-		}
+		private void File_setExecute(FilePath f, bool value)
+        {
+        }
 
 		private bool File_hasExecute()
 		{
-			return db.FileSystem.SupportsExecute();
+			return false;
 		}
 
 		internal static byte[] MakeKey(FilePath wd, FilePath f)

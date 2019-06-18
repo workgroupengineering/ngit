@@ -258,21 +258,8 @@ namespace NGit.Storage.File
 			RefUpdate head = UpdateRef(Constants.HEAD);
 			head.DisableRefLog();
 			head.Link(Constants.R_HEADS + Constants.MASTER);
-			bool fileMode;
-			if (FileSystem.SupportsExecute())
-			{
-				FilePath tmp = FilePath.CreateTempFile("try", "execute", Directory);
-				FileSystem.SetExecute(tmp, true);
-				bool on = FileSystem.CanExecute(tmp);
-				FileSystem.SetExecute(tmp, false);
-				bool off = FileSystem.CanExecute(tmp);
-				FileUtils.Delete(tmp);
-				fileMode = on && !off;
-			}
-			else
-			{
-				fileMode = false;
-			}
+			bool fileMode = false;
+
 			cfg.SetInt(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION
 				, 0);
 			cfg.SetBoolean(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_FILEMODE

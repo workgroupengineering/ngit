@@ -135,41 +135,10 @@ namespace NGit.Util
 
 		/// <returns>a new instance of the same type of FS.</returns>
 		public abstract NGit.Util.FS NewInstance();
-
-		/// <summary>Does this operating system and JRE support the execute flag on files?</summary>
-		/// <returns>
-		/// true if this implementation can provide reasonably accurate
-		/// executable bit information; false otherwise.
-		/// </returns>
-		public abstract bool SupportsExecute();
-
+        
 		/// <summary>Is this file system case sensitive</summary>
 		/// <returns>true if this implementation is case sensitive</returns>
 		public abstract bool IsCaseSensitive();
-
-		/// <summary>Determine if the file is executable (or not).</summary>
-		/// <remarks>
-		/// Determine if the file is executable (or not).
-		/// <p>
-		/// Not all platforms and JREs support executable flags on files. If the
-		/// feature is unsupported this method will always return false.
-		/// </remarks>
-		/// <param name="f">abstract path to test.</param>
-		/// <returns>true if the file is believed to be executable by the user.</returns>
-		public abstract bool CanExecute(FilePath f);
-
-		/// <summary>Set a file to be executable by the user.</summary>
-		/// <remarks>
-		/// Set a file to be executable by the user.
-		/// <p>
-		/// Not all platforms and JREs support executable flags on files. If the
-		/// feature is unsupported this method will always return false and no
-		/// changes will be made to the file specified.
-		/// </remarks>
-		/// <param name="f">path to modify the executable status of.</param>
-		/// <param name="canExec">true to enable execution; false to disable it.</param>
-		/// <returns>true if the change succeeded; false otherwise.</returns>
-		public abstract bool SetExecute(FilePath f, bool canExec);
 
 		/// <summary>Resolve this file to its actual path name that the JRE can use.</summary>
 		/// <remarks>

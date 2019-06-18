@@ -173,14 +173,7 @@ namespace NGit.Treewalk
 				}
 				else
 				{
-					if (fs.CanExecute(file))
-					{
-						mode = FileMode.EXECUTABLE_FILE;
-					}
-					else
-					{
-						mode = FileMode.REGULAR_FILE;
-					}
+					mode = FileMode.REGULAR_FILE;
 				}
 			}
 
