@@ -1,0 +1,11 @@
+{
+  "extends": ["config:base", "github>red-gate/renovate-config"],
+  "nuget": {
+    "enabled": true,
+    "registryUrls": [
+      "https://api.nuget.org/v3/index.json",
+      "https://red-gate.pkgs.visualstudio.com/_packaging/Main/nuget/v2"
+    ]
+  },
+  "masterIssue": true
+}
