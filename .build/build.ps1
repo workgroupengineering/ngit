@@ -115,10 +115,10 @@ task Init CreateFolders, RestoreNugetPackages, GenerateVersionInformation
 
 # Synopsis: Compile the Visual Studio solution
 task Compile Init, UpdateVersionInfo, {
-    use 15.0 MSBuild
+    Set-Alias msbuild (Resolve-MSBuild -MinimumVersion 15.0)
     try {
         exec {
-            & MSBuild `
+            & msbuild `
                 "$Solution" `
                 /maxcpucount `
                 /nodereuse:false `
