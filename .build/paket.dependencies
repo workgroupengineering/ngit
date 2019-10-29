@@ -5,7 +5,7 @@ source https://red-gate.pkgs.visualstudio.com/_packaging/Main/nuget/v3/index.jso
 nuget Nuget.CommandLine ~> 4.7.1
 
 # https://github.com/nightroman/Invoke-Build
-nuget Invoke-Build ~> 5.0.1
+nuget Invoke-Build ~> 5.5 >= 5.5.5
 
 # Contains useful helper functions for powershell build scripts
 nuget RedGate.Build ~> 4
