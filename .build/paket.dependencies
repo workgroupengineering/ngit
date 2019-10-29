@@ -8,4 +8,4 @@ nuget Nuget.CommandLine ~> 4.7.1
 nuget Invoke-Build ~> 5.0.1
 
 # Contains useful helper functions for powershell build scripts
-nuget RedGate.Build ~> 2
+nuget RedGate.Build ~> 4
